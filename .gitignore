@@ -31,3 +31,6 @@
 
 #Ignore .env
 .env
+
+#Ignore verification environment file
+verification-environment.html
