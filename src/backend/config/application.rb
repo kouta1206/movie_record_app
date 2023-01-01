@@ -29,6 +29,18 @@ module MovieRecordApp
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    # Railsアプリデフォルトのタイムゾーン
+    config.time_zone = ENV["TZ"]
+
+    # データベースの読み書きに使用するタイムゾーン
+    config.active_record.default_timezone = :utc
+
+    # i18nで使われるデフォルトのロケールファイルの指定
+    config.i18n.default_locale = :ja
+
+    # $LOAD_PATHにautoload pathを追加しない(Zeitwerk有効時false推奨)
+    config.add_autoload_paths_to_load_path = false
+
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
