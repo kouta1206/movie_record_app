@@ -70,3 +70,13 @@ services:
           nocopy: true
     depends_on:
       - api
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    environment:
+        PGADMIN_DEFAULT_EMAIL: xxxxxxxxxx@gmail.com
+        PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+        - 8081:80
+    depends_on:
+      - db
