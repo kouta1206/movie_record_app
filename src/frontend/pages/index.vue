@@ -1,52 +1,33 @@
 <template>
-  <section class="section">
-    <div class="columns is-mobile">
-      <card
-        title="Free"
-        icon="github"
-      >
-        Open source on <a href="https://github.com/buefy/buefy">
-          GitHub
-        </a>
-      </card>
+  <div>
+    <h2>Usersテーブルの取得</h2>
+    <table v-if="users.length">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(user, i) in users" :key="`user-${i}`">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-      <card
-        title="Responsive"
-        icon="cellphone-link"
-      >
-        <b class="has-text-grey">
-          Every
-        </b> component is responsive
-      </card>
-
-      <card
-        title="Modern"
-        icon="alert-decagram"
-      >
-        Built with <a href="https://vuejs.org/">
-          Vue.js
-        </a> and <a href="http://bulma.io/">
-          Bulma
-        </a>
-      </card>
-
-      <card
-        title="Lightweight"
-        icon="arrange-bring-to-front"
-      >
-        No other internal dependency
-      </card>
-    </div>
-  </section>
+    <div v-else>ユーザーが取得できませんでした</div>
+  </div>
 </template>
 
 <script>
-import Card from '~/components/Card'
-
 export default {
-  name: 'IndexPage',
-  components: {
-    Card
-  }
-}
+  async asyncData({ $axios }) {
+    let users = [];
+    await $axios.$get("/api/v1/users").then((res) => (users = res));
+    return { users };
+  },
+};
 </script>
