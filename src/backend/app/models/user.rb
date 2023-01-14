@@ -1,9 +1,15 @@
 require "validator/email_validator"
 
 class User < ApplicationRecord
-    before_validation   :downcase_email
-    has_secure_password
+    # Token生成モジュール
+    include TokenGenerateService
 
+    before_validation   :downcase_email
+
+    # gem bcrypt
+    has_secure_password
+    
+    # balidates
     validates :name, presence: true,
                             length: {
                                 maximum: 30,
