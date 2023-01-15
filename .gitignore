@@ -34,3 +34,8 @@
 
 #Ignore verification environment file
 verification-environment.html
+
+# Ignore history file
+/src/backend/.irb_history
+/src/frontend/.ash_history
+/src/backend/.byebug_history
