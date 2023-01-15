@@ -45,6 +45,12 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
+    // クロスドメインで認証情報を共有する(ブラウザでcookieを扱う為)
+    credentials: true,
+    // requestヘッダー設定
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+    },
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
   },
 
