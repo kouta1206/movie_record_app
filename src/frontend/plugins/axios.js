@@ -1,6 +1,10 @@
-export default ({ $axios }) => {
+export default ({ $axios, $auth  }) => {
   // request logs
   $axios.onRequest((config) => {
+    if ($auth.token) {
+      config.headers.common.Authorization = `Bearer ${$auth.token}`
+    }
+
     console.log(config)
   })
   // responce logs

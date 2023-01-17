@@ -39,7 +39,11 @@
             <b-menu-item label="Expo" icon="link"></b-menu-item>
           </b-menu-list>
           <b-menu-list label="Actions">
-            <b-menu-item icon="logout" label="Logout"></b-menu-item>
+            <b-menu-item
+              icon="logout"
+              label="Logout"
+              @click="logout()"
+            ></b-menu-item>
           </b-menu-list>
         </b-menu>
       </div>
@@ -57,6 +61,12 @@ export default {
       reduce: false,
       fullheight: true,
     };
+  },
+  methods: {
+    async logout() {
+      await this.$auth.logout();
+      return this.$router.push("/");
+    },
   },
 };
 </script>
