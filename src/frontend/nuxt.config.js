@@ -45,6 +45,10 @@ export default {
     '@nuxtjs/axios',
   ],
 
+  router: {
+    middleware: ['silent-refresh-token']
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // クロスドメインで認証情報を共有する(ブラウザでcookieを扱う為)
