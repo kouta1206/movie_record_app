@@ -36,7 +36,11 @@ gem 'rack-cors'
 # jwt Read more:https://rubygems.org/gems/jwt
 gem 'jwt', '~> 2.6'
 
+# httpclient Read more: https://rubygems.org/gems/httpclient
+gem 'httpclient', '~> 2.8', '>= 2.8.3'
 
+# dotenv Read more: https://rubygems.org/gems/dotenv-rails
+gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -47,6 +51,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'faker'
 end
 
 group :test do

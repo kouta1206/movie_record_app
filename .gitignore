@@ -31,6 +31,7 @@
 
 #Ignore .env
 .env
+/src/backend/.env
 
 #Ignore verification environment file
 verification-environment.html
