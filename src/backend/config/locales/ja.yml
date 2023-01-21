@@ -6,6 +6,15 @@ ja:
         email: メールアドレス
         password: パスワード
         activated: アクティブフラグ
+      movie:
+        title: 映画のタイトル
+        director: 映画の監督
+        release_at: 公開日
+        viewing_at: 視聴日
+      starring:
+        name: 主演
+      genre:
+        name: ジャンル
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

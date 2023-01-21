@@ -5,7 +5,42 @@ class Movie < ApplicationRecord
     has_many :starrings, through: :movie_starrings
     belongs_to :user
 
+    validates :title, presence: true,
+                        length: {
+                            maximum:50
+                        }
+    validates :director, presence: true,
+                        length: {
+                            maximum: 50
+                        }
+    validates :evaluation, presence: true,
+    # 評価は1~5までとする
+                        numericality: {
+                            only_integer: true,
+                            in: 1..5
+                        }
+    validates :user_id, presence: true
+
+    validates :viewing_at, presence: true
+                        # format: {
+                        #     # YYYY-MM-DDで登録する
+                        # }
+
+    validates :release_at, presence: true
+                        # format: {
+                        #     # TODO: YYYY-MM-DDで登録する
+                        # }
+
+    validates :review, presence: false,
+    # レビューを書かず登録だけする事も許容する
+                        length: {
+                            maximum: 500
+                        }
+
+
+
 scope :search_movies, -> (params) do
+    # TODO確認事項（パーフォーマンス等）
     return if params.blank?
     inner_join_with_starrings(params[:starring])
         .inner_join_with_genres(params[:genre])

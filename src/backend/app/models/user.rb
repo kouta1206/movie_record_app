@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
     before_validation   :downcase_email
 
+    has_many :movies
+
     # gem bcrypt
     has_secure_password
     
