@@ -11,7 +11,7 @@ movies.each do |movie|
     viewing_at =  Faker::Date.between(from: 1.year.ago, to: 1.year.from_now)
     review = Faker::Lorem.paragraph(sentence_count: 40)
     image_path = "#{img_src}#{movie['backdrop_path']}"
-    movie = Movie.create(user_id: 1, title: movie["title"], image_path: image_path, release_at: movie["release_date"], director: Faker::Name.unique.name, evaluation: rand(1..5), viewing_at: viewing_at, review: review)
+    movie = Movie.create(user_id: rand(1..10), title: movie["title"], image_path: image_path, release_at: movie["release_date"], director: Faker::Name.unique.name, evaluation: rand(1..5), viewing_at: viewing_at, review: review)
     5.times do |n|
         movie.starrings.find_or_create_by!(name: Faker::Name.unique.name)
     end

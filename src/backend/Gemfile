@@ -20,7 +20,7 @@ gem 'puma', '~> 4.1'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap', '~> 1.15', require: false
 
 # コンソールの出力結果を見やすくする Read more: https://rubygems.org/gems/hirb
 gem 'hirb', '~> 0.7.3'
