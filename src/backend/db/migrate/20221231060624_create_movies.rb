@@ -4,9 +4,9 @@ class CreateMovies < ActiveRecord::Migration[6.0]
       t.string :image_path
       t.string :title
       t.string :director
-      t.date :release_at
+      t.string :release_at
       t.integer :evaluation
-      t.date :viewing_at
+      t.string :viewing_at
       t.text :review
       t.references :user, foreign_key: true
       t.timestamps
