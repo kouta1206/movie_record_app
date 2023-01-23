@@ -4,6 +4,6 @@ class Starring < ApplicationRecord
 
     validates :name, presence: true,
                             length: {
-                                maximum: 30
+                                maximum: 50
                             }
 end

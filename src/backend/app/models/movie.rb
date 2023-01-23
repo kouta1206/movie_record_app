@@ -7,7 +7,7 @@ class Movie < ApplicationRecord
 
     validates :title, presence: true,
                         length: {
-                            maximum:50
+                            maximum:100
                         }
     validates :director, presence: true,
                         length: {
@@ -17,19 +17,25 @@ class Movie < ApplicationRecord
     # 評価は1~5までとする
                         numericality: {
                             only_integer: true,
-                            in: 1..5
+                        },
+                        inclusion: { in: (1..5),
+                        message: :invalid_int_range
                         }
+
     validates :user_id, presence: true
 
-    validates :viewing_at, presence: true
-                        # format: {
-                        #     # YYYY-MM-DDで登録する
-                        # }
+    VALID_DATE_REGEX = /\A\d{4}-\d{2}-\d{2}\z/
+    validates :viewing_at, presence: true,
+                        format: {
+                            with: VALID_DATE_REGEX,
+                            message: :invalid_date
+                        }
 
-    validates :release_at, presence: true
-                        # format: {
-                        #     # TODO: YYYY-MM-DDで登録する
-                        # }
+    validates :release_at, presence: true,
+                        format: {
+                            with: VALID_DATE_REGEX,
+                            message: :invalid_date
+                        }
 
     validates :review, presence: false,
     # レビューを書かず登録だけする事も許容する

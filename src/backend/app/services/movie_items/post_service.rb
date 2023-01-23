@@ -9,10 +9,12 @@ module MovieItems
             @movie = Movie.new(movie_params)
             if  @movie.save!
                 starring_params[:name].map {|starring_name|
-                    @movie.starrings.find_or_create_by!(name: starring_name)
+                    starring = Starring.find_or_create_by!(name: starring_name)
+                    @movie.starrings << starring
                 }
                 genre_params[:name].map {|genre_name|
-                    @movie.genres.find_or_create_by!(name: genre_name)
+                    genre = Genre.find_or_create_by!(name: genre_name)
+                    @movie.genres << genre
                 }
             end
 

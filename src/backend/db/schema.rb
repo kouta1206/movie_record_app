@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(version: 2022_12_31_060808) do
     t.string "image_path"
     t.string "title"
     t.string "director"
-    t.date "release_at"
+    t.string "release_at"
     t.integer "evaluation"
-    t.date "viewing_at"
+    t.string "viewing_at"
     t.text "review"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
