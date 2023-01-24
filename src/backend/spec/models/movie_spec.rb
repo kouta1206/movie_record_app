@@ -116,8 +116,8 @@ RSpec.describe Movie, type: :model do
         expect(Movie.search_movies(params)).to include(movie)
       end
       it '指定した監督の映画は取得できているか' do
-        movie = Movie.find_by(director: 'Guillermo Grijalva Pedroza')
-        params = {:director => "Guillermo Grijalva Pedroza"}
+        movie = Movie.find_by(director: 'Teodoro Rael Pacheco')
+        params = {:director => "Teodoro Rael Pacheco"}
         expect(Movie.search_movies(params)).to include(movie)
       end
       
@@ -134,22 +134,31 @@ RSpec.describe Movie, type: :model do
       end
 
       it '指定した俳優の映画情報を取得できているか' do
-        movies = Starring.find_by(name: 'Tomás Ozuna Pedraza').movies
-        params = {:starring => 'Tomás Ozuna Pedraza'}
+        movies = Starring.find_by(name: 'Daniela Brito Jurado').movies
+        params = {:starring => 'Daniela Brito Jurado'}
         expect([Movie.search_movies(params)]).to match([movies])
       end
 
       it '指定したジャンルの映画情報は取得できているか' do
-       puts movies = Genre.find_by(name: 'ファンタジー映画').movies.to_sql
-        movies = Genre.find_by(name: 'ファンタジー映画').movies
-        params = {:genre => 'ファンタジー映画'}
-        byebug
-        # expect([Movie.search_movies(params)]).to match([movies])
-        puts Movie.search_movies(params).to_sql
-        result_movie = Movie.search_movies(params)
-        byebug
+        movies = Genre.find_by(name: 'アニメーション映画').movies
+        params = {:genre => 'アニメーション映画'}
+        expect([result_movie = Movie.search_movies(params)]).to match([movies])
       end
     end
-  end
-
+    # context '異常系' do
+    # TODO:当初はパスしていただuser_idのクエリをフロント側で検索かけていたが、バックエンド側でuser_idをセットした事によってエラーが発生
+    #   it 'DBにない値を取得すると空配列が返却されているか' do
+    #     movie = Movie.find_by(title: 'noTitle')
+    #     params = { :title => 'noTitle' }
+    #     result = Movie.search_movies(params)
+    #     expect(movies).to be_empty
+    # end
+    # it 'クエリのキーが存在しないものだったらnillが返却されているか' do
+    # TODO:このテストは存在しないkeyをURLに直打ちするとログインユーザーの映画情報は全件取得しまっている
+    #   params = { :noKey => 'noKey'}
+    #   result = Movie.search_movies(params)
+    #   byebug
+    # end
+end
+# TODO:更新系や削除系は後で
 end

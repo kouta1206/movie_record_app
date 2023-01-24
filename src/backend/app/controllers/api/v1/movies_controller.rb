@@ -4,11 +4,11 @@ module Api
   module V1
     class MoviesController < ApplicationController
       before_action :authenticate_user
-      before_action :correct_user_search_param, only: [:index]
+      # before_action :correct_user_search_param, only: [:index]
       before_action :correct_user_show_param, only: [:show]
 
       def index
-        movies = Movie.search_movies(params)
+        movies = Movie.search_movies(search_params)
         render json: movies
       end
 
@@ -49,6 +49,10 @@ module Api
 
       def genre_params
         params.require(:genre).permit(name: [])
+      end
+
+      def search_params
+        params.permit(:title, :director, :image_path, :release_at, :evaluation, :viewing_at, :review, :viewingAtFrom, :viewingAtTo, :sortField, :order).merge(user_id: current_user.id)
       end
 
     end
