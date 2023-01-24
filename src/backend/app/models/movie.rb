@@ -45,18 +45,19 @@ class Movie < ApplicationRecord
 
 
 
-scope :search_movies, -> (params) do
+scope :search_movies, -> (search_params) do
     # TODO確認事項（パーフォーマンス等）
-    return if params.blank?
-    inner_join_with_starrings(params[:starring])
-        .inner_join_with_genres(params[:genre])
-        .search_with_title(params[:title])
-        .search_with_director(params[:director])
-        .search_with_evaluation(params[:evaluation])
-        .search_with_user_id(params[:userId])
-        .search_with_period(params)
-        .sort_by_order(params)
-        .limit_with_offset(params[:page])
+    return if search_params.blank?
+    # TODO（現状だと存在しないkeyをURLクエリに直打ちするとログインしているユーザーIDを全件取得してしまっている：模索中）
+    inner_join_with_starrings(search_params[:starring])
+        .inner_join_with_genres(search_params[:genre])
+        .search_with_title(search_params[:title])
+        .search_with_director(search_params[:director])
+        .search_with_evaluation(search_params[:evaluation])
+        .search_with_user_id(search_params[:user_id])
+        .search_with_period(search_params)
+        .sort_by_order(search_params)
+        .limit_with_offset(search_params[:page])
 end
 
 
@@ -79,16 +80,16 @@ scope :search_with_director, -> (director) {
 scope :search_with_evaluation, ->  (evaluation) {
     where(evaluation: evaluation) if evaluation.present? }
 
-scope :search_with_period, -> (params) {
-    return if params[:viewingAtFrom].blank? && params[:viewingAtTo].blank?
-    viewing_at_from = params[:viewingAtFrom]
-    viewing_at_to = params[:viewingAtTo]
+scope :search_with_period, -> (search_params) {
+    return if search_params[:viewingAtFrom].blank? && search_params[:viewingAtTo].blank?
+    viewing_at_from = search_params[:viewingAtFrom]
+    viewing_at_to = search_params[:viewingAtTo]
     where(viewing_at: (viewing_at_from)..(viewing_at_to)) }
 
-scope :sort_by_order, -> (params) {
-    return if params[:sortField].blank? && params[:order].blank?
-    sort_field = params[:sortField]
-    order = params[:order]
+scope :sort_by_order, -> (search_params) {
+    return if search_params[:sortField].blank? && search_params[:order].blank?
+    sort_field = search_params[:sortField]
+    order = search_params[:order]
     order("#{sort_field} #{order}")}
 
 scope :limit_with_offset, -> (page) {
