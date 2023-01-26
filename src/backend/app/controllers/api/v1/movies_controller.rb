@@ -3,9 +3,7 @@
 module Api
   module V1
     class MoviesController < ApplicationController
-      # protect_from_forgery
       before_action :authenticate_user
-      # before_action :correct_user_search_param, only: [:index]
       before_action :correct_user_show_param, only: [:show]
 
       def index
@@ -14,7 +12,6 @@ module Api
       end
 
       def search
-        # byebug
         movies = Movie.search_movies(search_params)
         render json: movies
       end
