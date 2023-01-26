@@ -3,11 +3,18 @@
 module Api
   module V1
     class MoviesController < ApplicationController
+      # protect_from_forgery
       before_action :authenticate_user
       # before_action :correct_user_search_param, only: [:index]
       before_action :correct_user_show_param, only: [:show]
 
       def index
+        genres = Genre.all()
+        render json: genres
+      end
+
+      def search
+        # byebug
         movies = Movie.search_movies(search_params)
         render json: movies
       end
@@ -52,7 +59,7 @@ module Api
       end
 
       def search_params
-        params.permit(:title, :director, :image_path, :release_at, :evaluation, :viewing_at, :review, :viewingAtFrom, :viewingAtTo, :sortField, :order).merge(user_id: current_user.id)
+        params.permit(:title, :director, :image_path, :release_at, :evaluation, :viewing_at, :review, :viewingAtFrom, :viewingAtTo, :sortField, :order, :starring, :genre).merge(user_id: current_user.id)
       end
 
     end
