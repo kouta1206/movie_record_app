@@ -6,7 +6,9 @@ Rails.application.routes.draw do
         post :refresh, on: :collection
         delete :destroy, on: :collection
       end
-      resources :movies, only:[:index, :show, :create]
+      resources :movies, only:[:index, :show, :create] do
+        get :search, on: :collection
+      end
     end
   end
 end

@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 export default ({ $axios, $auth  }) => {
   // request logs
   $axios.onRequest((config) => {
@@ -15,4 +17,8 @@ export default ({ $axios, $auth  }) => {
   $axios.onError((e) => {
     console.log(e.response)
   })
+  $axios.onRequest(config => {
+    config.paramsSerializer = params => qs.stringify(params, { arrayFormat: 'brackets' });
+    return config;
+  });
  }
