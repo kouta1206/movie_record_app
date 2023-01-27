@@ -100,7 +100,13 @@
         </p>
       </div>
     </div>
-    <CommonTable :movieList="movieList" ref="commonTable" />
+    <CommonTable
+      :count="count"
+      :movieList="movieList"
+      ref="commonTable"
+      @onSort="onSort"
+      @onPageChange="onPageChange"
+    />
   </div>
 </template>
 
@@ -133,6 +139,10 @@ export default {
       genreName: "",
       searchText: [],
       movieList: [],
+      sortField: "id",
+      order: "asc",
+      page: 1,
+      count: null,
     };
   },
   methods: {
@@ -152,21 +162,24 @@ export default {
         });
     },
     async searchMovies() {
+      this.$refs.commonTable.loadingUntilSyncData();
+
       let params = this.setSearchParams();
       this.movieList = [];
 
-      console.log(params);
       await this.$axios
         .$get("api/v1/movies/search", {
-            params,
+          params,
         })
         .then((res) => {
-          console.log(res);
-          this.movieList.push(...res);
+          this.movieList.push(...res["movies"]);
+          this.count = res["count"];
         })
         .catch((error) => {
           console.log(error);
         });
+
+      this.$refs.commonTable.stopLoading();
     },
     setSearchParams() {
       let params = [];
@@ -206,7 +219,22 @@ export default {
         params.push(["genre", this.genreName]);
       }
 
+      params.push(["sortField", this.sortField]);
+
+      params.push(["order", this.order]);
+
+      params.push(["page", this.page]);
+
       return Object.fromEntries(params);
+    },
+    onSort(field, order) {
+      this.sortField = field;
+      this.order = order;
+      this.searchMovies();
+    },
+    onPageChange(page) {
+      this.page = page;
+      this.searchMovies();
     },
   },
   computed: {},
