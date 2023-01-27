@@ -1,35 +1,64 @@
 <template>
   <section style="width: 80vw;:">
     <br />
-    <b-pagination
-      :total="total"
-      v-model="current"
-      :range-before="rangeBefore"
-      :range-after="rangeAfter"
-      :order="order"
-      :size="size"
-      :simple="isSimple"
-      :rounded="isRounded"
-      :per-page="perPage"
-      :icon-prev="prevIcon"
-      :icon-next="nextIcon"
-      aria-next-label="Next page"
-      aria-previous-label="Previous page"
-      aria-page-label="Page"
-      aria-current-label="Current page"
-      :page-input="hasInput"
-      :page-input-position="inputPosition"
-    >
-    </b-pagination>
-
     <b-tabs>
       <b-tab-item label="Table">
         <b-table
-          style="border: 1px solid"
+          :loading="loading"
+          paginated
+          pagination-position="top"
+          height="300"
+          sort-multiple
+          backend-sorting
+          hoverable
+          striped
+          bordered
           :data="movieList"
-          :columns="columns"
-          focusable
+          @sort="onSort"
+          :default-sort-direction="defaultOrder"
+          backend-pagination
+          :per-page="perPage"
+          :total="this.count"
+          @page-change="onPageChange"
+          aria-next-label="Next page"
+          aria-previous-label="Previous page"
+          aria-current-label="Current page"
         >
+          <b-table-column field="id" label="ID" sortable v-slot="movieList">
+            {{ movieList.row.id }}
+          </b-table-column>
+          <b-table-column
+            field="title"
+            label="タイトル"
+            sortable
+            v-slot="movieList"
+          >
+            {{ movieList.row.title }}
+          </b-table-column>
+          <b-table-column
+            field="director"
+            label="監督"
+            sortable
+            v-slot="movieList"
+          >
+            {{ movieList.row.director }}</b-table-column
+          >
+          <b-table-column
+            field="viewing_at"
+            label="視聴日"
+            sortable
+            v-slot="movieList"
+          >
+            {{ movieList.row.viewing_at }}
+          </b-table-column>
+          <b-table-column
+            field="release_at"
+            label="リリース日"
+            sortable
+            v-slot="movieList"
+          >
+            {{ movieList.row.release_at }}
+          </b-table-column>
         </b-table>
       </b-tab-item>
     </b-tabs>
@@ -38,23 +67,18 @@
 
 <script>
 export default {
-  created() {
-    // console.log(...this.movieList)
-    // console.log(...this.movieList)
-    // this.data = [];
-  },
+  created() {},
   props: {
     movieList: {
+      required: false,
+    },
+    count: {
       required: false,
     },
   },
   data() {
     return {
-      total: 200,
-      current: 10,
-      perPage: 10,
-      rangeBefore: 3,
-      rangeAfter: 1,
+      data: this.movieList,
       order: "",
       size: "",
       isSimple: false,
@@ -63,32 +87,25 @@ export default {
       prevIcon: "chevron-left",
       nextIcon: "chevron-right",
       inputPosition: "",
-      columns: [
-        {
-          field: "id",
-          label: "ID",
-          width: "40",
-          numeric: true,
-        },
-        {
-          field: "title",
-          label: "タイトル",
-        },
-        {
-          field: "director",
-          label: "監督",
-        },
-        {
-          field: "viewing_at",
-          label: "視聴日",
-          centered: true,
-        },
-        {
-          field: "release_at",
-          label: "リリース日",
-        },
-      ],
+      defaultOrder: "asc",
+      page: 2,
+      perPage: 8,
+      loading: false,
     };
+  },
+  methods: {
+    onSort(field, order) {
+      this.$emit("onSort", field, order);
+    },
+    onPageChange(page) {
+      this.$emit("onPageChange", page);
+    },
+    loadingUntilSyncData() {
+      this.loading = true;
+    },
+    stopLoading() {
+      this.loading = false;
+    },
   },
 };
 </script>

@@ -13,7 +13,12 @@ module Api
 
       def search
         movies = Movie.search_movies(search_params)
-        render json: movies
+        count = movies.except(:limit, :offset).count
+        res = {
+          movies: movies,
+          count: count
+        }
+        render json: res
       end
 
       def show
@@ -56,7 +61,7 @@ module Api
       end
 
       def search_params
-        params.permit(:title, :director, :image_path, :release_at, :evaluation, :viewing_at, :review, :viewingAtFrom, :viewingAtTo, :sortField, :order, :starring, :genre).merge(user_id: current_user.id)
+        params.permit(:title, :director, :image_path, :release_at, :evaluation, :viewing_at, :review, :viewingAtFrom, :viewingAtTo, :sortField, :order, :starring, :genre, :page).merge(user_id: current_user.id)
       end
 
     end
