@@ -23,6 +23,8 @@
           aria-next-label="Next page"
           aria-previous-label="Previous page"
           aria-current-label="Current page"
+          :selected.sync="selected"
+          :s-row-selectable="showMovie()"
         >
           <b-table-column field="id" label="ID" sortable v-slot="movieList">
             {{ movieList.row.id }}
@@ -67,7 +69,6 @@
 
 <script>
 export default {
-  created() {},
   props: {
     movieList: {
       required: false,
@@ -91,6 +92,7 @@ export default {
       page: 2,
       perPage: 8,
       loading: false,
+      selected: null,
     };
   },
   methods: {
@@ -105,6 +107,17 @@ export default {
     },
     stopLoading() {
       this.loading = false;
+    },
+    showMovie() {
+      if (this.selected == null) {
+        return;
+      }
+      this.$router.push({
+        name: 'show-movie',
+        path: 'show-movie',
+        query: {id: this.selected.id }
+      });
+      this.selected = null;
     },
   },
 };

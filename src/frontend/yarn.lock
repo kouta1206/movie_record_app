@@ -1927,6 +1927,13 @@
     "postcss" "^7.0.32"
     "postcss-value-parser" "^4.1.0"
 
+"awesome-vue-star-rating@^1.0.9":
+  "integrity" "sha512-j8KZcz5zZxZYiWasdzI0uiB8rPHyzvsc8BjWCLk+kf7IrfI2fpdKMvnyGWz9d6+s8Iqd3vrHVp0vyWjFnrRtaQ=="
+  "resolved" "https://registry.npmjs.org/awesome-vue-star-rating/-/awesome-vue-star-rating-1.0.9.tgz"
+  "version" "1.0.9"
+  dependencies:
+    "vue" "^2.6.10"
+
 "axios-retry@^3.1.9":
   "integrity" "sha512-RohAUQTDxBSWLFEnoIG/6bvmy8l3TfpkclgStjl5MDCMBDgapAWCmr1r/9harQfWC8bzLC8job6UcL1A1Yc+/Q=="
   "resolved" "https://registry.npmjs.org/axios-retry/-/axios-retry-3.3.1.tgz"
@@ -7985,7 +7992,7 @@
   "resolved" "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@*", "vue@^2.0.0", "vue@^2.6.11", "vue@^2.6.12", "vue@^2.7.10":
+"vue@*", "vue@^2.0.0", "vue@^2.6.10", "vue@^2.6.11", "vue@^2.6.12", "vue@^2.7.10":
   "integrity" "sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.7.14.tgz"
   "version" "2.7.14"
