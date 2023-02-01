@@ -6,9 +6,10 @@ Rails.application.routes.draw do
         post :refresh, on: :collection
         delete :destroy, on: :collection
       end
-      resources :movies, only:[:index, :show, :create] do
+      resources :movies, only:[:index, :show, :create, :new] do
         get :search, on: :collection
       end
+      resources :access_tmdb, only:[:index]
     end
   end
 end
