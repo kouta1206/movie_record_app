@@ -27,7 +27,8 @@ export default {
   plugins: [
     'plugins/auth',
     'plugins/axios',
-    'plugins/nuxt-client-init'
+    'plugins/nuxt-client-init',
+    '@plugins/textarea-autosize'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
