@@ -1,6 +1,6 @@
 table_names = %w(
         users
-        movies
+        tmdb_movies
     )
 
     table_names.each do |table_name|

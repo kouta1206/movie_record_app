@@ -1,0 +1,57 @@
+front
+    画面名
+        - tmdb映画検索画面
+        - ../tmdb.png
+    URL
+        - localhost:8080/search-tmdb
+    役割
+        - tmdbという映画の検索、登録サービスで公開されているAPI
+        の検索をする画面
+        - 映画名を検索すると結果が表示される
+    ソース
+        - frontend/pages/search-tmdb.vue
+backend
+    api名称
+        - tmdb映画検索api
+    エンドポイント
+        -  /api/v1/access_tmdb
+    役割
+        - 映画を登録する為に映画の画像とタイトルはtmdbの公開apiから
+        検索してヒットした対象の映画を登録する為のapi(映画を検索をかけて
+        画像を取得する為くらいのapi)
+    ソース
+        - controller:src/backend/controller/api/v1/access_tmdb_controller.rb
+            - method:indexメソッド
+        - model:src/backend/app/models/access_tmdb.rb
+            - method:allメソッド
+        - model:src/backend/app/models/access_api.rb
+            - method:searchメソッド
+    httpメソッド
+        - get
+
+    見ていただきたい点
+        - apiのパフォーマンスや記載の仕方、アーキテクチャ等
+
+    懸念点、ご質問
+        - 現在controller->access_tmdb->access_apiで外部公開apiを実装しているのですが、
+            access_apiには今後外部公開されているapiをつかったり、欲しい情報のスクレイピング
+            用にaccess_api.rbに外部用は記述してます。access_tmdbは外部に公開されているapi
+            の種類による為(今回はtmdbのapiを利用している為、access_tmdb.rbを作成しました。
+            こちらはこの設計で問題ないでしょうか？)
+
+    参考サイト
+        - https://www.youtube.com/watch?v=S9CrW5FDheo
+
+    改善点
+        特になし
+        
+    追加機能予定
+        特になし
+
+TMDBのサイトは以下になります。
+https://www.themoviedb.org/?language=ja
+また、tmdbのapiを使用したら、シーダーのimage_pathにtmdbから取得
+している物が一部あります。そのため、API_KEYが必要になります。
+backend配下に.envを作成して下記を作成ください。
+
+API_KEY=f85ad1ed335f6deffd35b77439ae057d
