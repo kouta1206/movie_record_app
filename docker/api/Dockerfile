@@ -9,7 +9,7 @@ RUN  mkdir $ROOT_DIR
 
 WORKDIR $ROOT_DIR
 
-COPY src/backend/Gemfile* ./
+COPY backend/Gemfile* ./
 
 RUN apk update && \
     apk upgrade && \

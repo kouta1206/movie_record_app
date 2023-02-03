@@ -5,38 +5,38 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/src/backend/.bundle
+/backend/.bundle
 
 # Ignore all logfiles and tempfiles.
-/src/backend/log/*
-/src/backend/tmp/*
-/src/backend!/log/.keep
-/src/backend!/tmp/.keep
+/backend/log/*
+/backend/tmp/*
+/backend!/log/.keep
+/backend!/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-/src/backend/tmp/pids/*
-/src/backend!/tmp/pids/
-/src/backend!/tmp/pids/.keep
+/backend/tmp/pids/*
+/backend!/tmp/pids/
+/backend!/tmp/pids/.keep
 
 # Ignore uploaded files in development.
-/src/backend/storage/*
-!/src/backend/storage/.keep
-/src/backend/.byebug_history
+/backend/storage/*
+!/backend/storage/.keep
+/backend/.byebug_history
 
 # Ignore master key for decrypting credentials and more.
-/src/backend/config/master.key
+/backend/config/master.key
 
 #Ignore all docker db
 /docker/db
 
 #Ignore .env
 .env
-/src/backend/.env
+/backend/.env
 
 #Ignore verification environment file
 verification-environment.html
 
 # Ignore history file
-/src/backend/.irb_history
-/src/frontend/.ash_history
-/src/backend/.byebug_history
+/backend/.irb_history
+/frontend/.ash_history
+/backend/.byebug_history
