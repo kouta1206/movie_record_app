@@ -16,7 +16,7 @@ WORKDIR ${HOME}
 
 COPY package*.json ./
 RUN yarn install
-COPY src/frontend/ ./
+COPY /frontend/ ./
 RUN yarn run build
 
 EXPOSE ${CONTAINER_PORT}
