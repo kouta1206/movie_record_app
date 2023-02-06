@@ -3,7 +3,7 @@ module Api
         class AccessTmdbController < ApplicationController
 
             def index
-                @access_tmdb = AccessTmdb.all(search_params)
+                @access_tmdb = AccessApi.search(search_params)
                 render json: @access_tmdb
             end
 

@@ -1,8 +1,8 @@
-class Api::V1::AuthTokenController < ApplicationController
+class Api::V1::AuthTokensController < ApplicationController
     include UserSessionizeService
   
     # 404エラーが発生した場合にヘッダーのみを返す
-    rescue_from UserAuth.not_found_exception_class, with: :not_found
+    # rescue_from UserAuth.not_found_exception_class, with: :not_found
     # refresh_tokenのInvalidJitErrorが発生した場合はカスタムエラーを返す
     rescue_from JWT::InvalidJtiError, with: :invalid_jti
   
@@ -11,7 +11,7 @@ class Api::V1::AuthTokenController < ApplicationController
     # 処理前にsessionを削除する
     before_action :delete_session, only: [:create]
     # session_userを取得、存在しない場合は401を返す
-    before_action :sessionize_user, only: [:refresh, :destroy]
+    before_action :sessionize_user, only: [:update, :destroy]
   
     # ログイン
     def create
@@ -21,7 +21,7 @@ class Api::V1::AuthTokenController < ApplicationController
     end
   
     # リフレッシュ
-    def refresh
+    def update
         @user = session_user
         set_refresh_token_to_cookie
         render json: login_response
