@@ -25,7 +25,7 @@ module Api
       end
 
       def create
-        if MovieItems::PostService.post(movie_params, starring_params, genre_params)
+        if MovieItems::PostService.post(movie_params)
             render json: { status: 200, message: 'Success!'}
         else
           render json: { status: 400, message: 'Bad Request'}
@@ -47,16 +47,9 @@ module Api
       private
 
       def movie_params
-        params.require(:movie).permit(:title, :image_path, :director, :release_at, :evaluation, :viewing_at, :review).merge(user_id: current_user.id)
+        params.require(:movie).permit(:title, :image_path, :director, :release_at, :evaluation, :viewing_at, :review, genre_names: [], starring_names: []).merge(user_id: current_user.id)
       end
 
-      def starring_params
-        params.require(:starring).permit(name: [])
-      end
-
-      def genre_params
-        params.require(:genre).permit(name: [])
-      end
 
       def search_params
         params.permit(:title, :director, :image_path, :release_at, :evaluation, :viewing_at, :review, :viewingAtFrom, :viewingAtTo, :sortField, :order, :starring, :genre, :page).merge(user_id: current_user.id)
