@@ -8,7 +8,7 @@ class CreateMovies < ActiveRecord::Migration[6.0]
       t.integer :evaluation
       t.string :viewing_at
       t.text :review
-      t.references :user, foreign_key: true, index: true
+      t.references :user, foreign_key: true, index: true, null: false
       t.timestamps
     end
   end

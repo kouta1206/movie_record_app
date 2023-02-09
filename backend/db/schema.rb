@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2022_12_31_060808) do
   end
 
   create_table "movie_genres", force: :cascade do |t|
-    t.bigint "movie_id"
-    t.bigint "genre_id"
+    t.bigint "movie_id", null: false
+    t.bigint "genre_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["genre_id"], name: "index_movie_genres_on_genre_id"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2022_12_31_060808) do
   end
 
   create_table "movie_starrings", force: :cascade do |t|
-    t.bigint "movie_id"
-    t.bigint "starring_id"
+    t.bigint "movie_id", null: false
+    t.bigint "starring_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["movie_id"], name: "index_movie_starrings_on_movie_id"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2022_12_31_060808) do
     t.integer "evaluation"
     t.string "viewing_at"
     t.text "review"
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_movies_on_title"
