@@ -1,5 +1,6 @@
 class Api::V1::AuthTokensController < ApplicationController
-    include UserSessionizeService
+    include UserSessionable
+    include UserAuthenticateable
   
     # 404エラーが発生した場合にヘッダーのみを返す
     # rescue_from UserAuth.not_found_exception_class, with: :not_found

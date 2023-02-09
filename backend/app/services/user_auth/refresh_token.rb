@@ -1,4 +1,3 @@
-# api/app/services/user_auth/refresh_token.rb
 require 'jwt'
 
 module UserAuth
@@ -16,9 +15,7 @@ module UserAuth
             else
                 # encode
                 @user_id = encrypt_for(user_id)
-                # byebug
                 @payload = claims
-                # byebug
                 @token = JWT.encode(@payload, secret_key, algorithm, header_fields)
                 remember_jti(user_id)
             end
