@@ -151,9 +151,9 @@ export default {
       let afterSixMonth = moment().add(6, "months").format("YYYY-MM-DD");
       this.viewingAtTo = new Date(afterSixMonth);
     },
-    getGenreNames() {
-      this.$axios
-        .$get("api/v1/movies")
+    async getGenreNames() {
+      await this.$axios
+        .$get("api/v1/genres")
         .then((res) => {
           this.genres = res;
         })
@@ -168,7 +168,7 @@ export default {
       this.movieList = [];
 
       await this.$axios
-        .$get("api/v1/movies/search", {
+        .$get("api/v1/movies", {
           params,
         })
         .then((res) => {

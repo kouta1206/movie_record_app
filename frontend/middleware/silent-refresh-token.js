@@ -5,7 +5,7 @@ export default async ({ $auth, $axios, store, route, redirect, isDev }) => {
       console.log('Execute silent refresh!!')
       // TODO: サイレントリフレッシュの挙動を後で確認する(apiのconfig/initializers/user_authのexpを30hoursから10secondに変更する)
     }
-    await $axios.$post('/api/v1/auth_token/refresh')
+    await $axios.$put('/api/v1/auth_token')
       .then(response => $auth.login(response))
       .catch(() => {
         const msg = 'セッションの有効期限が切れました。' +

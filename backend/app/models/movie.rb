@@ -48,7 +48,6 @@ class Movie < ApplicationRecord
 scope :search_movies, -> (search_params) do
     # TODO確認事項（パーフォーマンス等）
     return if search_params.blank?
-    # TODO（現状だと存在しないkeyをURLクエリに直打ちするとログインしているユーザーIDを全件取得してしまっている：模索中）
     inner_join_with_starrings(search_params[:starring])
         .inner_join_with_genres(search_params[:genre])
         .search_with_title(search_params[:title])
@@ -95,4 +94,35 @@ scope :sort_by_order, -> (search_params) {
 scope :limit_with_offset, -> (page) {
     limit(5).offset(5 * (page.to_i - 1))  if page.present?
 }
+
+    class << self
+
+        def show(id)
+            movie = Movie.find(id)
+            starrings_name = movie.starrings.map {|starring| starring.name }
+            genres_name = movie.genres.map {|genre| genre.name }
+            {
+                movie: movie,
+                starrings: starrings_name,
+                genres: genres_name
+            }
+        end
+
+        def create(movie_params,  starring_params, genre_params)
+            @movie = Movie.new(movie_params)
+            if  @movie.save!
+                starring_params[:name].map {|starring_name|
+                    starring = Starring.find_or_create_by!(name: starring_name)
+                    @movie.starrings << starring
+                }
+                genre_params[:name].map {|genre_name|
+                    genre = Genre.find_or_create_by!(name: genre_name)
+                    @movie.genres << genre
+                }
+            end
+        end
+        
+    end
 end
+
+

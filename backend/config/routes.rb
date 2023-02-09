@@ -2,14 +2,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # auth_token
-      resources :auth_token, only:[:create] do
-        post :refresh, on: :collection
-        delete :destroy, on: :collection
-      end
-      resources :movies, only:[:index, :show, :create, :new] do
-        get :search, on: :collection
-      end
+      resource :auth_token, only:[:create, :update, :destroy]
+      # movies
+      resources :movies, only:[:index, :show, :create, :new]
+      # access_tmdb
       resources :access_tmdb, only:[:index]
+      # genres
+      resources :genres, only:[:index]
     end
   end
 end

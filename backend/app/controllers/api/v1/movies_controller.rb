@@ -5,11 +5,6 @@ module Api
       before_action :correct_user_show_param, only: [:show]
 
       def index
-        genres = Genre.all()
-        render json: genres
-      end
-
-      def search
         movies = Movie.search_movies(search_params)
         count = movies.except(:limit, :offset).count
         res = {
@@ -20,12 +15,12 @@ module Api
       end
 
       def show
-        movie = MovieItems::ShowService.show(params[:id])
+        movie = Movie.show(params[:id])
         render json: movie
       end
 
       def create
-        if MovieItems::PostService.post(movie_params, starring_params, genre_params)
+        if Movie.create(movie_params, starring_params, genre_params)
             render json: { status: 200, message: 'Success!'}
         else
           render json: { status: 400, message: 'Bad Request'}
