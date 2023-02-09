@@ -95,33 +95,24 @@ scope :limit_with_offset, -> (page) {
     limit(5).offset(5 * (page.to_i - 1))  if page.present?
 }
 
+    def serialize
+        as_json(include: [:starrings, :genres])
+    end
+
     class << self
 
-        def show(id)
-            movie = Movie.find(id)
-            starrings_name = movie.starrings.map {|starring| starring.name }
-            genres_name = movie.genres.map {|genre| genre.name }
-            {
-                movie: movie,
-                starrings: starrings_name,
-                genres: genres_name
-            }
-        end
-
-        def create(movie_params,  starring_params, genre_params)
-            @movie = Movie.new(movie_params)
-            if  @movie.save!
+        def create_movie(movie_params,  starring_params, genre_params)
+            ApplicationRecord.transaction do
+                movie = Movie.create!(movie_params)
                 starring_params[:name].map {|starring_name|
-                    starring = Starring.find_or_create_by!(name: starring_name)
-                    @movie.starrings << starring
+                    movie.starrings.find_or_create_by!(name: starring_name)
                 }
                 genre_params[:name].map {|genre_name|
-                    genre = Genre.find_or_create_by!(name: genre_name)
-                    @movie.genres << genre
+                    movie.genres.find_or_create_by!(name: genre_name)
                 }
             end
         end
-        
+
     end
 end
 

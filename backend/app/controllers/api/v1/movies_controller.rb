@@ -15,12 +15,12 @@ module Api
       end
 
       def show
-        movie = Movie.show(params[:id])
+        movie = Movie.find(params[:id]).serialize
         render json: movie
       end
 
       def create
-        if Movie.create(movie_params, starring_params, genre_params)
+        if Movie.create_movie(movie_params, starring_params, genre_params)
             render json: { status: 200, message: 'Success!'}
         else
           render json: { status: 400, message: 'Bad Request'}
