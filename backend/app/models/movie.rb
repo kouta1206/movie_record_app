@@ -54,7 +54,7 @@ scope :search_movies, -> (search_params) do
     res = res.with_director(search_params[:director]) if search_params[:director].present?
     res = res.with_evaluation(search_params[:evaluation])if search_params[:evaluation].present?
     res = res.with_user_id(search_params[:user_id]) if search_params[:user_id].present?
-    res = res.with_period(search_params) if search_params[:viewingAtFrom].present?
+    res = res.with_period(search_params[:viewingAtFrom], search_params[:viewingAtTo]) if search_params[:viewingAtFrom].present?
     res = res.sort_by_order(search_params) if search_params[:sortField].present?
     res = res.paginate(search_params[:page]) if search_params[:page].present?
 
@@ -81,10 +81,8 @@ scope :with_director, -> (director) {
 scope :with_evaluation, ->  (evaluation) {
     where(evaluation: evaluation) }
 
-scope :with_period, -> (search_params) {
-    viewing_at_from = search_params[:viewingAtFrom]
-    viewing_at_to = search_params[:viewingAtTo]
-    where(viewing_at: (viewing_at_from)..(viewing_at_to)) }
+scope :with_period, -> (from, to) {
+    where(viewing_at: (from)..(to)) }
 
 scope :sort_by_order, -> (search_params) {
     sort_field = search_params[:sortField]
