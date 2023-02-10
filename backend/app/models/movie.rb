@@ -46,7 +46,6 @@ class Movie < ApplicationRecord
 
 
 scope :search_movies, -> (search_params) do
-    # TODO確認事項（パーフォーマンス等）
     return if search_params.blank?
     inner_join_with_starrings(search_params[:starring])
         .inner_join_with_genres(search_params[:genre])
@@ -102,7 +101,7 @@ scope :limit_with_offset, -> (page) {
     class << self
 
         def create_movie(movie_params,  starring_params, genre_params)
-            ApplicationRecord.transaction do
+            transaction do
                 movie = Movie.create!(movie_params)
                 starring_params[:name].map {|starring_name|
                     movie.starrings.find_or_create_by!(name: starring_name)
