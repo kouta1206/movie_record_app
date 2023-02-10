@@ -44,6 +44,7 @@ module MovieRecordApp
     #Cookieを処理するmeddlewareを追加
     config.middleware.use ActionDispatch::Cookies
 
+    config.autoload_paths += %W(#{Rails.root}/lib)
     config.action_dispatch.cookies_same_site_protection =
       ENV["COOKIES_SAME_SITE"].to_sym if Rails.env.production?
 

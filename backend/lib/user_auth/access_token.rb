@@ -2,7 +2,6 @@ require 'jwt'
 
 module UserAuth
     class AccessToken
-        include TokenCommons
 
         attr_reader :user_id, :payload, :lifetime, :token, :options
 

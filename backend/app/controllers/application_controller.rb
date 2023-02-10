@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::API
+    # セッションを扱うモジュール
+    include UserSessionable
+    # 認可を扱うモジュール
+    include UserAuthenticateable
 
     # CSRF対策
     before_action :xhr_request?

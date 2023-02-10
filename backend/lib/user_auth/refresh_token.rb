@@ -2,7 +2,6 @@ require 'jwt'
 
 module UserAuth
     class RefreshToken
-        include TokenCommons
 
         attr_reader :user_id, :payload, :token
 

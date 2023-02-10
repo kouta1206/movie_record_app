@@ -1,8 +1,6 @@
 module Api
   module V1
     class MoviesController < ApplicationController
-      include UserAuthenticateable
-
       before_action :authenticate_user
       before_action :correct_user_show_param, only: [:show]
 
