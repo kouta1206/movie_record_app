@@ -24,7 +24,7 @@ module Api
             head :created
 
         rescue ActiveRecord::RecordInvalid => e
-            render json: { status: 400, message: e}
+            render json: { status: 400, message:  e.record.errors.full_messages}
       end
 
       private
