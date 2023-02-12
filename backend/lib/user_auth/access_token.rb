@@ -2,8 +2,9 @@ require 'jwt'
 
 module UserAuth
     class AccessToken
-        include TokenCommons
 
+        include TokenCommons
+        
         attr_reader :user_id, :payload, :lifetime, :token, :options
 
         def initialize(user_id: nil, payload: {}, token: nil, options: {})

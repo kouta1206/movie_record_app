@@ -47,51 +47,50 @@ class Movie < ApplicationRecord
 
 scope :search_movies, -> (search_params) do
     return if search_params.blank?
-    inner_join_with_starrings(search_params[:starring])
-        .inner_join_with_genres(search_params[:genre])
-        .search_with_title(search_params[:title])
-        .search_with_director(search_params[:director])
-        .search_with_evaluation(search_params[:evaluation])
-        .search_with_user_id(search_params[:user_id])
-        .search_with_period(search_params)
-        .sort_by_order(search_params)
-        .limit_with_offset(search_params[:page])
+    res = self
+    res = res.with_starrings(search_params[:starring]) if search_params[:starring].present?
+    res = res.inner_join_with_genres(search_params[:genre]) if search_params[:genre].present?
+    res = res.with_title(search_params[:title]) if search_params[:title].present?
+    res = res.with_director(search_params[:director]) if search_params[:director].present?
+    res = res.with_evaluation(search_params[:evaluation])if search_params[:evaluation].present?
+    res = res.with_user_id(search_params[:user_id]) if search_params[:user_id].present?
+    res = res.with_period(search_params[:viewingAtFrom], search_params[:viewingAtTo]) if search_params[:viewingAtFrom].present?
+    res = res.sort_by_order(search_params) if search_params[:sortField].present?
+    res = res.paginate(search_params[:page]) if search_params[:page].present?
+
+    res
 end
 
 
-scope :inner_join_with_starrings, -> (starring) { joins(:starrings)
-    .where(starrings: {name: starring}) if starring.present? }
+scope :with_starrings, -> (starring) { joins(:starrings)
+    .where(starrings: {name: starring}) }
 
 scope :inner_join_with_genres, -> (genre) { joins(:genres)
-    .where(genres: {name: genre}) if genre.present? }
+    .where(genres: {name: genre}) }
 
-scope :search_with_title, -> (title) {
-    where(title: title) if title.present? }
+scope :with_title, -> (title) {
+    where(title: title) }
 
-scope :search_with_user_id, -> (user_id) {
-    where(user_id: user_id) if user_id.present?
+scope :with_user_id, -> (user_id) {
+    where(user_id: user_id)
 }
 
-scope :search_with_director, -> (director) {
-    where(director: director) if director.present? }
+scope :with_director, -> (director) {
+    where(director: director) }
 
-scope :search_with_evaluation, ->  (evaluation) {
-    where(evaluation: evaluation) if evaluation.present? }
+scope :with_evaluation, ->  (evaluation) {
+    where(evaluation: evaluation) }
 
-scope :search_with_period, -> (search_params) {
-    return if search_params[:viewingAtFrom].blank? && search_params[:viewingAtTo].blank?
-    viewing_at_from = search_params[:viewingAtFrom]
-    viewing_at_to = search_params[:viewingAtTo]
-    where(viewing_at: (viewing_at_from)..(viewing_at_to)) }
+scope :with_period, -> (from, to) {
+    where(viewing_at: (from)..(to)) }
 
 scope :sort_by_order, -> (search_params) {
-    return if search_params[:sortField].blank? && search_params[:order].blank?
     sort_field = search_params[:sortField]
     order = search_params[:order]
     order("#{sort_field} #{order}")}
 
-scope :limit_with_offset, -> (page) {
-    limit(5).offset(5 * (page.to_i - 1))  if page.present?
+scope :paginate, -> (page) {
+    limit(5).offset(5 * (page.to_i - 1))
 }
 
     def serialize
