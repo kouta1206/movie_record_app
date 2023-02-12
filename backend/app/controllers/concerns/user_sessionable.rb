@@ -1,4 +1,5 @@
-module UserSessionizeService
+module UserSessionable
+    extend ActiveSupport::Concern
 
     # セッションユーザーが居ればtrue、存在しない場合は401を返す
     def sessionize_user
