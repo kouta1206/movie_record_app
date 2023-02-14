@@ -22,7 +22,6 @@ module Api
       def create
         Movie.create_movie(movie_params, starring_params, genre_params)
             head :created
-
         rescue ActiveRecord::RecordInvalid => e
             render json: { status: 400, message:  e.record.errors.full_messages}
       end

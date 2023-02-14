@@ -20,7 +20,9 @@
     "sass": "^1.57.1",
     "sass-loader": "10",
     "vue": "^2.7.10",
+    "vue-multiselect": "^2.1.7",
     "vue-server-renderer": "^2.7.10",
+    "vue-star-rating": "^1.7.0",
     "vue-template-compiler": "^2.7.10",
     "vue-textarea-autosize": "^1.1.1"
   }
