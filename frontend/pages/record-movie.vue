@@ -13,112 +13,184 @@
         </figure>
       </div>
       <section class="ml-6">
-        <div class="mt-6">
-          <b-field
-            class="mb-6"
-            label="映画のタイトル"
-            :label-position="labelPosition"
-          >
-            <b-input :value="tmdbTitle" v-model="tmdbTitle"></b-input>
-          </b-field>
-
-          <b-field class="mb-5" label="出演者" :label-position="labelPosition">
-            <b-taginput
-              :value="['hoge']"
-              ellipsis
-              icon="label"
-              placeholder="出演者を入力下さい"
-            >
-            </b-taginput>
-          </b-field>
-
+        <div>
           <label
             style="
               font-weight: 600;
               color: #363636;
               font-size: calc(1rem * 0.75);
             "
-            for=""
-            >評価</label
+            >映画タイトル</label
           >
-          <div class="is-flex">
-            <AwesomeVueStarRating
-              :star="evaluation"
-              :hasresults="false"
-              :hasdescription="false"
-            />
-            <b-field
-              label="ジャンル"
-              :label-position="labelPosition"
-              class="mb-5 ml-6"
+          <b-input :value="tmdbTitle" v-model="tmdbTitle" icon="apps"></b-input>
+          <label
+            class="typo__label"
+            for="ajax"
+            style="
+              font-weight: 600;
+              color: #363636;
+              font-size: calc(1rem * 0.75);
+            "
+            >出演者</label
+          >
+          <b-taginput
+            v-model="starrings"
+            type="is-primary"
+            :data="filteredStarrings"
+            field="name"
+            autocomplete
+            :allow-new="true"
+            icon="account"
+            placeholder="出演者を選択"
+            @typing="getFilteredStarrings"
+          >
+          </b-taginput>
+
+          <div>
+            <label
+              class="typo__label"
+              for="ajax"
+              style="
+                font-weight: 600;
+                color: #363636;
+                font-size: calc(1rem * 0.75);
+              "
+              >ジャンル</label
             >
-              <b-select
-                placeholder="ジャンルを選択して下さい"
-                v-model="genreName"
+            <div>
+              <multiselect
+                icon="account"
+                v-model="selectedGenres"
+                id="id"
+                label="name"
+                track-by="name"
+                placeholder="ジャンルを選択"
+                open-direction="bottom"
+                :options="genreNames"
+                :multiple="true"
+                :searchable="true"
+                :loading="isLoading"
+                :internal-search="false"
+                :clear-on-select="false"
+                :close-on-select="false"
+                :options-limit="300"
+                :limit="3"
+                :limit-text="limitText"
+                :max-height="600"
+                :show-no-results="false"
+                :hide-selected="true"
+                @search-change="asyncFindGenreNames()"
               >
-                <option
-                  v-for="genre in genres"
-                  :value="genre.name"
-                  :key="genre.id"
+                <template slot="tag" slot-scope="{ option, remove }"
+                  ><span class="custom__tag"
+                    ><span>{{ option.name }}</span
+                    ><span class="custom__remove" @click="remove(option)"
+                      >❌</span
+                    ></span
+                  ></template
                 >
-                  {{ genre.name }}
-                </option>
-              </b-select>
-            </b-field>
+                <template slot="clear" slot-scope="props">
+                  <div
+                    class="multiselect__clear"
+                    v-if="selectedGenres.length"
+                    @mousedown.prevent.stop="clearAll(props.search)"
+                  ></div> </template
+                ><span slot="noResult"
+                  >Oops! No elements found. Consider changing the search
+                  query.</span
+                >
+              </multiselect>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="ml-6">
-        <div class="mt-6">
-          <b-field
-            class="mb-6"
-            label="映画監督"
-            :label-position="labelPosition"
+        <div>
+          <label
+            class="typo__label"
+            for="ajax"
+            style="
+              font-weight: 600;
+              color: #363636;
+              font-size: calc(1rem * 0.75);
+            "
+            >映画監督</label
           >
-            <b-autocomplete
-              rounded
-              :data="['jQuery', 'Vue', 'React']"
-              placeholder="映画監督"
-              icon="magnify"
-              clearable
-              @select="(option) => (selected = option)"
-            >
-              <template #empty>No results found</template>
-            </b-autocomplete>
-          </b-field>
-
-          <b-field
-            class="mb-6"
-            label="放送開始日"
-            :label-position="labelPosition"
+          <b-autocomplete
+            v-model="director"
+            rounded
+            placeholder="映画監督"
+            icon="account"
+            clearable
+            @select="(option) => (selected = option)"
           >
-            <b-datepicker
-              placeholder="放送開始日を入力ください"
-              icon="calendar-today"
-              v-model="tmdbReleaseDate"
-              trap-focus
-            >
-            </b-datepicker>
-          </b-field>
+            <template #empty>No results found</template>
+          </b-autocomplete>
 
-          <b-field label="視聴日" :label-position="labelPosition">
-            <b-datepicker
-              placeholder="視聴日を入力ください"
-              icon="calendar-today"
-              trap-focus
-            >
-            </b-datepicker>
-          </b-field>
+          <label
+            class="typo__label"
+            for="ajax"
+            style="
+              font-weight: 600;
+              color: #363636;
+              font-size: calc(1rem * 0.75);
+            "
+            >放送開始日</label
+          >
+          <b-datepicker
+            placeholder="放送開始日を入力ください"
+            icon="calendar-today"
+            v-model="tmdbReleaseDate"
+            trap-focus
+          >
+          </b-datepicker>
+
+          <label
+            class="typo__label"
+            for="ajax"
+            style="
+              font-weight: 600;
+              color: #363636;
+              font-size: calc(1rem * 0.75);
+            "
+            >視聴日</label
+          >
+          <b-datepicker
+            placeholder="視聴日を入力ください"
+            icon="calendar-today"
+            trap-focus
+            v-model="viewingDate"
+          >
+          </b-datepicker>
         </div>
       </section>
+      <div class="ml-6">
+        <label
+          style="font-weight: 600; color: #363636; font-size: calc(1rem * 0.75)"
+          >評価</label
+        >
+        <star-rating
+          v-model="evaluation"
+          :rating="rating"
+          :star-size="starSize"
+          :show-rating="false"
+        />
+      </div>
     </div>
+    <div class="buttons is-justify-content-flex-end mr-6 mb-3">
+      <b-button type="is-primary" @click="recordMovie()"
+        >映画を登録する</b-button
+      >
+    </div>
+
     <div style="text-align: center">
-      <TextareaAutosize
+      <textarea-autosize
         style="width: 80vw"
         placeholder="レビューを入力してください....."
         ref="myTextarea"
         :min-height="200"
+        v-model="review"
         :max-height="700"
       />
     </div>
@@ -126,60 +198,187 @@
 </template>
 
 <script>
-import AwesomeVueStarRating from "awesome-vue-star-rating";
-
+import Vue from "vue";
+import Multiselect from "vue-multiselect";
+import StarRating from "vue-star-rating";
+import moment from "moment";
+Vue.component("multiselect", Multiselect);
 export default {
   name: "RecordMovie",
   components: {
-    AwesomeVueStarRating,
+    Multiselect,
+    StarRating,
   },
   mounted() {
+    //　Vuexよりtmdb情報をセット
     this.setValueFromTmdb();
-
-    this.getGenreNames();
+    //　ジャンルマスタデータ取得
+    this.asyncFindGenreNames();
+    //  出演者マスタデータ取得
+    this.asyncFindStarringNames();
   },
   data() {
     return {
       tmdbTitle: "",
       tmdbImgPath: null,
       tmdbReleaseDate: [],
-      evaluation: 1,
+      evaluation: null,
+      rating: 0,
+      review: "",
+      starSize: 30,
       director: "",
-      starrings: [],
       viewingDate: [],
       labelPosition: "on-border",
-      genres: [],
-      genreName: "",
-      imgPath: null
+      imgPath: null,
+      value: null,
+      selectedGenres: [],
+      genreNames: [],
+      isLoading: false,
+      starrings: [],
+      starringNames: null,
+      filteredStarrings: this.starringNames,
     };
   },
   methods: {
+    limitText(count) {
+      return `and ${count} other genreNames`;
+    },
     setValueFromTmdb() {
       if (this.$store.state.tmdb.title) {
         this.tmdbTitle = this.$store.state.tmdb.title;
       }
-
       if (this.$store.state.tmdb.imagePath) {
         this.tmdbImgPath = this.$store.state.tmdb.imagePath;
       }
-
       if (this.$store.state.tmdb.releaseDate) {
-        this.tmdbReleaseDate.push(new Date(this.$store.state.tmdb.releaseDate));
+        this.tmdbReleaseDate = new Date(this.$store.state.tmdb.releaseDate);
       }
     },
-    getGenreNames() {
-      this.$axios
-        .$get("api/v1/movies")
+    async asyncFindStarringNames() {
+      await this.$axios
+        .$get("api/v1/starrings")
         .then((res) => {
-          this.genres = res;
+          this.starringNames = res;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
+    },
+    async asyncFindGenreNames() {
+      await this.$axios
+        .$get("api/v1/genres")
+        .then((res) => {
+          this.genreNames = res;
+        })
+        .catch((error) => {});
+    },
+    clearAll() {
+      this.selectedGenres = [];
+    },
+    getFilteredStarrings(text) {
+      this.filteredStarrings = this.starringNames.filter((option) => {
+        return (
+          option.name.toString().toLowerCase().indexOf(text.toLowerCase()) >= 0
+        );
+      });
+    },
+    async recordMovie() {
+      let params = this.setRecordMovieParams();
+
+      await this.$axios
+        .$post("api/v1/movies", {
+          ...params,
+        })
+        .then((res) => {
+          if (res.status == 400) {
+            //バリデーションダイアログ
+            this.showValidationDialog(res);
+            return;
+          }
+          // トースタ出力
+          this.toasterOutput();
+          // リダイレクト
+          this.$router.push({
+            name: "index-movie",
+            path: "index-movie",
+          });
+        })
+        .catch((error) => {});
+    },
+    setRecordMovieParams() {
+      let movie = {};
+      let starring = {};
+      let genre = {};
+
+      if (this.tmdbTitle) {
+        movie.title = this.tmdbTitle;
+      }
+
+      if (this.evaluation) {
+        movie.evaluation = this.evaluation;
+      }
+
+      if (this.tmdbImgPath) {
+        movie.image_path = this.tmdbImgPath;
+      }
+
+      if (this.director) {
+        movie.director = this.director;
+      }
+
+      if (this.viewingDate) {
+        const viewingDate = moment(this.viewingDate).format("YYYY-MM-DD");
+        movie.viewing_at = viewingDate;
+      }
+
+      if (this.tmdbReleaseDate) {
+        const releaseDate = moment(this.tmdbReleaseDate).format("YYYY-MM-DD");
+        movie.release_at = releaseDate;
+      }
+
+      if (this.review) {
+        movie.review = this.review;
+      }
+
+      if (this.starrings) {
+        starring.name = this.starrings.map((starring) => starring.name);
+      }
+
+      if (this.selectedGenres) {
+        genre.name = this.selectedGenres.map((genre) => genre.name);
+      }
+
+      return { movie, starring, genre };
+    },
+    toasterOutput() {
+      this.$buefy.notification.open({
+        message: `映画の登録に成功しました！`,
+        type: "is-link",
+        pauseOnHover: true,
+        "auto-close": true,
+        position: "is-bottom-right",
+      });
+    },
+    showValidationDialog(res) {
+      this.$buefy.dialog.confirm({
+        title: "警告",
+        message:`・${res.message.join('<br>・')}`,
+        type: "is-danger",
+        hasIcon: true,
+      });
     },
   },
 };
 </script>
 
-<style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style scoped>
+.custom__tag {
+  display: inline-block;
+  padding: 3px 12px;
+  background: #d2d7ff;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 </style>

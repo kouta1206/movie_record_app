@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       resources :access_tmdb, only:[:index]
       # genres
       resources :genres, only:[:index]
+      # starrings
+      resources :starrings, only:[:index]
     end
   end
 end
