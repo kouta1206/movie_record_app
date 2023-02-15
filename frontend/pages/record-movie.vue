@@ -224,7 +224,7 @@ export default {
       tmdbReleaseDate: [],
       evaluation: null,
       rating: 0,
-      review: '',
+      review: "",
       starSize: 30,
       director: "",
       viewingDate: [],
@@ -260,9 +260,7 @@ export default {
         .then((res) => {
           this.starringNames = res;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     },
     async asyncFindGenreNames() {
       await this.$axios
@@ -270,9 +268,7 @@ export default {
         .then((res) => {
           this.genreNames = res;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     },
     clearAll() {
       this.selectedGenres = [];
@@ -284,74 +280,90 @@ export default {
         );
       });
     },
-    recordMovie() {
+    async recordMovie() {
       let params = this.setRecordMovieParams();
-      console.log(params);
 
-      this.$axios
+      await this.$axios
         .$post("api/v1/movies", {
-          params,
+          ...params,
         })
         .then((res) => {
-          // this.hogeToast();
-          console.log(res);
-          // this.$router.push({
-          //   name: "index-movie",
-          //   path: "index-movie",
+          if (res.status == 400) {
+            //バリデーションダイアログ
+            this.showValidationDialog(res);
+            return;
+          }
+          // トースタ出力
+          this.toasterOutput();
+          // リダイレクト
+          this.$router.push({
+            name: "index-movie",
+            path: "index-movie",
+          });
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     },
     setRecordMovieParams() {
-      let params = {};
+      let movie = {};
+      let starring = {};
+      let genre = {};
 
       if (this.tmdbTitle) {
-        params = { movie: { title: this.tmdbTitle } };
+        movie.title = this.tmdbTitle;
       }
 
       if (this.evaluation) {
-        params.movie.evaluation = this.evaluation;
+        movie.evaluation = this.evaluation;
       }
 
       if (this.tmdbImgPath) {
-        params.movie.image_path = this.tmdbImgPath;
+        movie.image_path = this.tmdbImgPath;
       }
 
       if (this.director) {
-        params.movie.director = this.director;
+        movie.director = this.director;
       }
 
       if (this.viewingDate) {
         const viewingDate = moment(this.viewingDate).format("YYYY-MM-DD");
-        params.movie.viewingDate = viewingDate;
+        movie.viewing_at = viewingDate;
       }
 
       if (this.tmdbReleaseDate) {
         const releaseDate = moment(this.tmdbReleaseDate).format("YYYY-MM-DD");
-        params.movie.tmdbReleaseDate = releaseDate;
+        movie.release_at = releaseDate;
       }
 
       if (this.review) {
-        params.movie.review = this.review;
+        movie.review = this.review;
       }
 
       if (this.starrings) {
-        params.starring = {
-          name: this.starrings.map((starring) => starring.name),
-        };
+        starring.name = this.starrings.map((starring) => starring.name);
       }
 
       if (this.selectedGenres) {
-        params.genre = {
-          name: this.selectedGenres.map((genre) => genre.name),
-        };
+        genre.name = this.selectedGenres.map((genre) => genre.name);
       }
 
-      return params;
+      return { movie, starring, genre };
     },
-    hogeToast() {
-      this.$buefy.notification.open("Clicked!!");
+    toasterOutput() {
+      this.$buefy.notification.open({
+        message: `映画の登録に成功しました！`,
+        type: "is-link",
+        pauseOnHover: true,
+        "auto-close": true,
+        position: "is-bottom-right",
+      });
+    },
+    showValidationDialog(res) {
+      this.$buefy.dialog.confirm({
+        title: "警告",
+        message:`・${res.message.join('<br>・')}`,
+        type: "is-danger",
+        hasIcon: true,
+      });
     },
   },
 };
