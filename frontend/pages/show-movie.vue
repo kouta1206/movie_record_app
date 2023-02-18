@@ -48,6 +48,20 @@
               :hasdescription="false"
             />
           </div>
+          <div class="buttons mt-5">
+            <b-button
+              type="is-light is-light mr-5"
+              outlined
+              @click="editRecordMovie()"
+              >編集する</b-button
+            >
+            <b-button
+              type="is-danger is-danger"
+              outlined
+              @click="confirmDeleteDialog()"
+              >削除する</b-button
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -66,6 +80,7 @@ export default {
   },
   async mounted() {
     await this.getAsyncMovie(this.id);
+    console.log(this.movieData);
   },
   data() {
     return {
@@ -102,6 +117,59 @@ export default {
         }
       }
       return filteredObjectDate;
+    },
+    editRecordMovie() {
+      this.$buefy.dialog.confirm({
+        message: `${this.movieData.title}の映画を編集しますか？`,
+        onConfirm: () => this.prepareEditMovie(),
+      });
+    },
+    confirmDeleteDialog() {
+      this.$buefy.dialog.confirm({
+        message: `記録した${this.movieData.title}を削除しますか？`,
+        onConfirm: () => this.asyncDeleteRecordMovie(),
+      });
+    },
+    async asyncDeleteRecordMovie() {
+      const paramsId = { id: this.movieData.id };
+      this.$axios
+        .$delete(`api/v1/movies/${paramsId.id}`)
+        .then((res) => {
+          this.toasterOutput();
+
+          this.$router.push({
+            name: "index-movie",
+            path: "index-movie",
+          });
+        })
+        .catch((error) => {});
+    },
+    toasterOutput() {
+      this.$buefy.notification.open({
+        message: `映画を削除しました`,
+        type: "is-link",
+        pauseOnHover: true,
+        "auto-close": true,
+        position: "is-bottom-right",
+      });
+    },
+    prepareEditMovie() {
+      this.$store.commit("edit/setMovieTitle", this.movieData.title);
+      this.$store.commit("edit/setMovieDirector", this.movieData.director);
+      this.$store.commit("edit/setMovieImg", this.movieData.image_path);
+      this.$store.commit("edit/setGenreName", this.genreData);
+      this.$store.commit("edit/setStarringName", this.starringData);
+      this.$store.commit("edit/setMovieEvaluation", this.movieData.evaluation);
+      this.$store.commit("edit/setMovieReleaseDate", this.movieData.release_at);
+      this.$store.commit("edit/setMovieViewingDate", this.movieData.viewing_at);
+      this.$store.commit("edit/setMovieViewingDate", this.movieData.viewing_at);
+      this.$store.commit("edit/setMovieReview", this.movieData.review);
+      this.$store.commit("edit/setDataExists", true);
+
+      this.$router.push({
+        name: "record-movie",
+        path: "record-movie",
+      });
     },
   },
 };

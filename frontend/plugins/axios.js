@@ -7,15 +7,15 @@ export default ({ $axios, $auth  }) => {
       config.headers.common.Authorization = `Bearer ${$auth.token}`
     }
 
-    console.log(config)
+    // console.log(config)
   })
   // responce logs
   $axios.onResponse((config) => {
-    console.log(config)
+    // console.log(config)
   })
   // error logs
   $axios.onError((e) => {
-    console.log(e.response)
+    // console.log(e.response)
   })
   $axios.onRequest(config => {
     config.paramsSerializer = params => qs.stringify(params, { arrayFormat: 'brackets' });

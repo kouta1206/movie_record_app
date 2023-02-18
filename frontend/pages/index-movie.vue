@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 35px 35px 0 35px">
     <div style="height: 20vh mx-5 my-5">
       <section class="mx-3 my-3 is-flex" style="">
         <div class="mr-5">
@@ -115,6 +115,7 @@ import CommonTable from "../components/CommonTable.vue";
 import moment from "moment";
 
 export default {
+  middleware: ["unauthorized"],
   components: {
     CommonTable,
   },

@@ -204,12 +204,15 @@ import StarRating from "vue-star-rating";
 import moment from "moment";
 Vue.component("multiselect", Multiselect);
 export default {
+  middleware: ["unauthorized"],
   name: "RecordMovie",
   components: {
     Multiselect,
     StarRating,
   },
   mounted() {
+    //   Vuexより編集映画情報があればセット
+    this.setValueFromEditMovie();
     //　Vuexよりtmdb情報をセット
     this.setValueFromTmdb();
     //　ジャンルマスタデータ取得
@@ -242,6 +245,48 @@ export default {
   methods: {
     limitText(count) {
       return `and ${count} other genreNames`;
+    },
+    setValueFromEditMovie() {
+      if (!this.$store.state.edit.dataExists) {
+        return;
+      }
+      console.log(this.$store.state.edit.title);
+
+      if (this.$store.state.edit.title) {
+        this.tmdbTitle = this.$store.state.edit.title;
+      }
+
+      if (this.$store.state.edit.director) {
+        this.director = this.$store.state.edit.director;
+      }
+
+      if (this.$store.state.edit.img) {
+        this.tmdbImgPath = this.$store.state.edit.img;
+      }
+
+      if (this.$store.state.edit.releaseDate) {
+        this.tmdbReleaseDate = new Date(this.$store.state.edit.releaseDate);
+      }
+
+      if (this.$store.state.edit.genreName) {
+        this.selectedGenres = this.$store.state.edit.genreName;
+      }
+
+      if (this.$store.state.edit.starringName) {
+        this.starrings = this.$store.state.edit.starringName;
+      }
+
+      if (this.$store.state.edit.evaluation) {
+        this.evaluation = this.$store.state.edit.evaluation;
+      }
+
+      if (this.$store.state.edit.viewingDate) {
+        this.viewingDate = new Date(this.$store.state.edit.viewingDate);
+      }
+
+      if (this.$store.state.edit.review) {
+        this.review = this.$store.state.edit.review;
+      }
     },
     setValueFromTmdb() {
       if (this.$store.state.tmdb.title) {
@@ -350,7 +395,7 @@ export default {
     },
     toasterOutput() {
       this.$buefy.notification.open({
-        message: `映画の登録に成功しました！`,
+        message: `映画を登録しました`,
         type: "is-link",
         pauseOnHover: true,
         "auto-close": true,
@@ -360,7 +405,7 @@ export default {
     showValidationDialog(res) {
       this.$buefy.dialog.confirm({
         title: "警告",
-        message:`・${res.message.join('<br>・')}`,
+        message: `・${res.message.join("<br>・")}`,
         type: "is-danger",
         hasIcon: true,
       });
