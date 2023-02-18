@@ -6,16 +6,16 @@
         <div class="content">
           <section>
             <b-field
-              label="Username"
+              label="メールアドレス"
               type="is-success"
               message="This username is available"
-              class="mb-6"
+              class="mb-3"
             >
               <b-input maxlength="30" v-model="params.auth.email"></b-input>
             </b-field>
             {{ params.auth.name }}
 
-            <b-field label="Password" class="mb-6">
+            <b-field label="パスワード" class="mb-6">
               <b-input
                 type="password"
                 password-reveal
@@ -23,12 +23,10 @@
               >
               </b-input>
             </b-field>
+            <b-button class="mt-" type="is-primary" expanded @click="login"
+              >ログイン</b-button
+            >
           </section>
-        </div>
-        <div class="buttons">
-          <b-button type="is-primary" expanded @click="login"
-            >Expanded</b-button
-          >
         </div>
       </div>
     </div>
@@ -37,6 +35,9 @@
 
 <script>
 export default {
+  middleware: 'logged-in-redirect',
+  mounted() {
+  },
   data() {
     return {
       params: { auth: { email: "", password: "" } },
@@ -48,6 +49,11 @@ export default {
         .$post("/api/v1/auth_token", this.params)
         .then((res) => {
           this.succeedAuthentication(res);
+          this.$router.push({
+            name: "index-movie",
+            path: "index-movie",
+          });
+            location.reload();
         })
         .catch((error) => {
           this.indicateValidationDialog(error);
@@ -82,7 +88,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%;
+  width: 50%;
   height: 50%;
 }
 

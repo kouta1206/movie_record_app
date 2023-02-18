@@ -2,7 +2,7 @@
   <section style="width: 90vw" class="mt-6">
     <b-field position="is-centered">
       <b-input
-        placeholder="Search..."
+        placeholder="検索から登録"
         type="search"
         icon="magnify"
         v-model="searchParam"
@@ -63,6 +63,7 @@
 
 <script>
 export default {
+  middleware: ['unauthorized'],
   data() {
     return {
       tmdbMovie: [],

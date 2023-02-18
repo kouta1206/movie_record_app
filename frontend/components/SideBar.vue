@@ -10,38 +10,58 @@
       type="is-light"
       open
     >
-      <b-field>
-        <b-switch v-model="reduce">Reduced</b-switch>
-      </b-field>
       <div class="p-1">
         <div class="block"></div>
         <b-menu class="is-custom-mobile">
           <b-menu-list label="Menu">
-            <b-menu-item icon="information-outline" label="Info"></b-menu-item>
-            <b-menu-item active expanded icon="settings" label="Administrator">
-              <b-menu-item icon="account" label="Users"></b-menu-item>
-              <b-menu-item icon="cellphone-link" label="Devices"></b-menu-item>
+            <b-menu-item active icon="account" expanded label="映画リスト">
               <b-menu-item
-                icon="cash-multiple"
-                label="Payments"
-                disabled
+                icon="cellphone-link"
+                label="トップページ"
+                tag="nuxt-link"
+                to="/index-movie"
+              ></b-menu-item>
+              <b-menu-item
+                icon="cellphone-link"
+                label="登録映画を検索する"
+                tag="nuxt-link"
+                to="/search-tmdb"
+              ></b-menu-item>
+              <b-menu-item
+                icon="movie-edit"
+                label="映画を登録する"
+                tag="nuxt-link"
+                to="/record-movie"
               ></b-menu-item>
             </b-menu-item>
-            <b-menu-item icon="account" label="My Account">
+            <b-menu-item icon="account" label="飲食リスト(開発中)" disabled>
               <b-menu-item
                 icon="account-box"
-                label="Account data"
+                label="インデックスページ"
               ></b-menu-item>
-              <b-menu-item icon="home-account" label="Addresses"></b-menu-item>
+              <b-menu-item
+                icon="home-account"
+                label="飲食店登録する"
+              ></b-menu-item>
+            </b-menu-item>
+            <b-menu-item icon="account" label="本リスト(開発中)" disabled>
+              <b-menu-item
+                icon="account-box"
+                label="インデックスページ"
+              ></b-menu-item>
+              <b-menu-item
+                icon="home-account"
+                label="本を登録する"
+              ></b-menu-item>
             </b-menu-item>
           </b-menu-list>
           <b-menu-list>
-            <b-menu-item label="Expo" icon="link"></b-menu-item>
+            <b-menu-item label="マイページ" icon="link"></b-menu-item>
           </b-menu-list>
           <b-menu-list label="Actions">
             <b-menu-item
               icon="logout"
-              label="Logout"
+              label="ログアウト"
               @click="logout()"
             ></b-menu-item>
           </b-menu-list>
@@ -55,25 +75,28 @@
 export default {
   data() {
     return {
-      expandOnHover: false,
+      expandOnHover: true,
       expandWithDelay: false,
-      mobile: "reduce",
-      reduce: false,
+      mobile: "hidden",
+      reduce: true,
       fullheight: true,
     };
   },
   methods: {
     async logout() {
       await this.$auth.logout();
-      return this.$router.push("/");
+       this.$router.push({
+        name: "index",
+        path: "/"
+      });
     },
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .p-1 {
   padding: 1em;
-  height: 90vh;
+  height: 93.5vh;
   box-sizing: border-box;
 }
 .sidebar-page {
