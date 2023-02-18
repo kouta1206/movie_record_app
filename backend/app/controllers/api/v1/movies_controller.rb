@@ -31,6 +31,7 @@ module Api
         if @movie.destroy
           head :created
         else
+          render json: @movie.errors
         end
       end
 
