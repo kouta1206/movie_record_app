@@ -3,6 +3,7 @@ module Api
     class MoviesController < ApplicationController
       before_action :authenticate_user
       before_action :correct_user_show_param, only: [:show]
+      before_action :movie, only: [:show, :destroy, :update]
 
       def index
         movies = Movie.search_movies(search_params)
@@ -15,8 +16,7 @@ module Api
       end
 
       def show
-        movie = Movie.find(params[:id]).serialize
-        render json: movie
+        render json: movie.serialize
       end
 
       def create
@@ -24,6 +24,14 @@ module Api
             head :created
         rescue ActiveRecord::RecordInvalid => e
             render json: { status: 400, message:  e.record.errors.full_messages}
+      end
+
+      def destroy
+        if movie.destroy
+          head :created
+        else
+          render json: movie.errors
+        end
       end
 
       private
@@ -38,7 +46,10 @@ module Api
         head(:unauthorized) if current_user.id != movie.user_id
       end
 
-      private
+      def movie
+        @movie ||= Movie.find(params[:id])
+      end
+
 
       def movie_params
         params.require(:movie).permit(:title, :image_path, :director, :release_at, :evaluation, :viewing_at, :review).merge(user_id: current_user.id)

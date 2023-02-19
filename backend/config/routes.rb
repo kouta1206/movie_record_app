@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       # auth_token
       resource :auth_token, only:[:create, :update, :destroy]
       # movies
-      resources :movies, only:[:index, :show, :create, :new]
+      resources :movies, only:[:index, :show, :create, :destroy]
       # access_tmdb
       resources :access_tmdb, only:[:index]
       # genres

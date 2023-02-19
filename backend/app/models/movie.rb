@@ -1,8 +1,8 @@
 class Movie < ApplicationRecord
-    has_many :movie_genres
-    has_many :genres, through: :movie_genres
-    has_many :movie_starrings
-    has_many :starrings, through: :movie_starrings
+    has_many :movie_genres, dependent: :destroy
+    has_many :genres, through: :movie_genres, dependent: :destroy
+    has_many :movie_starrings, dependent: :destroy
+    has_many :starrings, through: :movie_starrings, dependent: :destroy
     belongs_to :user
 
     validates :title, presence: true,
