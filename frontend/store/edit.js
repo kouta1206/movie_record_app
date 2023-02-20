@@ -1,5 +1,6 @@
 
 export const state =  {
+  id: null,
   dataExists: false,
   title: null,
   director: null,
@@ -14,6 +15,10 @@ export const state =  {
 
 
 export const mutations = {
+
+  setMovieId (state, payload) {
+    state.id = payload
+  },
   setMovieTitle (state, payload) {
     state.title = payload
   },

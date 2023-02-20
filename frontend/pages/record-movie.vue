@@ -179,8 +179,11 @@
       </div>
     </div>
     <div class="buttons is-justify-content-flex-end mr-6 mb-3">
-      <b-button type="is-primary" @click="recordMovie()"
+      <b-button v-if="!isEditMode" type="is-primary" @click="recordMovie()"
         >映画を登録する</b-button
+      >
+      <b-button v-else type="is-primary" @click="editRecordMovie()"
+        >映画を更新する</b-button
       >
     </div>
 
@@ -240,6 +243,8 @@ export default {
       starrings: [],
       starringNames: null,
       filteredStarrings: this.starringNames,
+      isEditMode: false,
+      movieId: null,
     };
   },
   methods: {
@@ -249,41 +254,36 @@ export default {
     setValueFromEditMovie() {
       if (!this.$store.state.edit.dataExists) {
         return;
+      } else {
+        this.isEditMode = this.$store.state.edit.dataExists;
       }
-      console.log(this.$store.state.edit.title);
-
+      if (this.$store.state.edit.id) {
+        this.movieId = this.$store.state.edit.id;
+      }
       if (this.$store.state.edit.title) {
         this.tmdbTitle = this.$store.state.edit.title;
       }
-
       if (this.$store.state.edit.director) {
         this.director = this.$store.state.edit.director;
       }
-
       if (this.$store.state.edit.img) {
         this.tmdbImgPath = this.$store.state.edit.img;
       }
-
       if (this.$store.state.edit.releaseDate) {
         this.tmdbReleaseDate = new Date(this.$store.state.edit.releaseDate);
       }
-
       if (this.$store.state.edit.genreName) {
         this.selectedGenres = this.$store.state.edit.genreName;
       }
-
       if (this.$store.state.edit.starringName) {
         this.starrings = this.$store.state.edit.starringName;
       }
-
       if (this.$store.state.edit.evaluation) {
         this.evaluation = this.$store.state.edit.evaluation;
       }
-
       if (this.$store.state.edit.viewingDate) {
         this.viewingDate = new Date(this.$store.state.edit.viewingDate);
       }
-
       if (this.$store.state.edit.review) {
         this.review = this.$store.state.edit.review;
       }
@@ -327,7 +327,6 @@ export default {
     },
     async recordMovie() {
       let params = this.setRecordMovieParams();
-
       await this.$axios
         .$post("api/v1/movies", {
           ...params,
@@ -352,10 +351,8 @@ export default {
       let movie = {};
       let starring = {};
       let genre = {};
-
-      if (this.tmdbTitle) {
-        movie.title = this.tmdbTitle;
-      }
+      
+      movie.title = this.tmdbTitle;
 
       if (this.evaluation) {
         movie.evaluation = this.evaluation;
@@ -390,8 +387,53 @@ export default {
       if (this.selectedGenres) {
         genre.name = this.selectedGenres.map((genre) => genre.name);
       }
+      return { movie, starring, genre };
+    },
+    setEditMovieParams() {
+      let movie = {};
+      let starring = {};
+      let genre = {};
+      movie.title = this.tmdbTitle;
+
+      movie.evaluation = this.evaluation;
+
+      movie.image_path = this.tmdbImgPath;
+
+      movie.director = this.director;
+
+      const viewingDate = moment(this.viewingDate).format("YYYY-MM-DD");
+      movie.viewing_at = viewingDate;
+
+      const releaseDate = moment(this.tmdbReleaseDate).format("YYYY-MM-DD");
+      movie.release_at = releaseDate;
+
+      movie.review = this.review;
+
+      starring.name = this.starrings.map((starring) => starring.name);
+
+      genre.name = this.selectedGenres.map((genre) => genre.name);
 
       return { movie, starring, genre };
+    },
+    async editRecordMovie() {
+      const params = this.setEditMovieParams();
+
+      await this.$axios
+        .$put(`api/v1/movies/${this.movieId}`, {
+          ...params,
+        })
+        .then((res) => {
+          if (res.status == 400) {
+            this.showValidationDialog(res);
+            return;
+          }
+          this.toasterOutput();
+          this.$router.push({
+            name: "index-movie",
+            path: "index-movie",
+          });
+        })
+        .catch((error) => {});
     },
     toasterOutput() {
       this.$buefy.notification.open({
