@@ -26,6 +26,13 @@ module Api
             render json: { status: 400, message:  e.record.errors.full_messages}
       end
 
+      def update
+        movie.update_movie(movie_params, starring_params, genre_params)
+          head :created
+        rescue ActiveRecord::RecordInvalid => e
+          render json: { status: 400, message:  e.record.errors.full_messages}
+      end
+
       def destroy
         if movie.destroy
           head :created

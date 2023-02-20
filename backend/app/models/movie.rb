@@ -97,6 +97,18 @@ scope :paginate, -> (page) {
         as_json(include: [:starrings, :genres])
     end
 
+    def update_movie(movie_params, starring_params, genre_params)
+        transaction do
+            update!(movie_params)
+            starring_params[:name].map {|starring_name|
+                starrings.find_or_create_by!(name: starring_name)
+            }
+            genre_params[:name].map {|genre_name|
+                genres.find_or_create_by!(name: genre_name)
+            }
+        end
+    end
+
     class << self
 
         def create_movie(movie_params,  starring_params, genre_params)
