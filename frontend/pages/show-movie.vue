@@ -154,6 +154,7 @@ export default {
       });
     },
     prepareEditMovie() {
+      this.$store.commit("edit/setMovieId", this.id);
       this.$store.commit("edit/setMovieTitle", this.movieData.title);
       this.$store.commit("edit/setMovieDirector", this.movieData.director);
       this.$store.commit("edit/setMovieImg", this.movieData.image_path);
