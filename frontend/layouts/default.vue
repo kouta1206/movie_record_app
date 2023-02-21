@@ -2,7 +2,7 @@
   <div>
     <nav-bar />
     <section class="is-flex">
-      <side-bar />
+      <!-- <side-bar /> -->
       <nuxt />
     </section>
   </div>
