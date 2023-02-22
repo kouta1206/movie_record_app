@@ -80,7 +80,6 @@ export default {
   },
   async mounted() {
     await this.getAsyncMovie(this.id);
-    console.log(this.movieData);
   },
   data() {
     return {
@@ -105,7 +104,6 @@ export default {
           this.starringData = res.starrings;
         })
         .catch((error) => {
-          console.log(error);
         });
       this.isLoading = false;
     },
@@ -168,8 +166,8 @@ export default {
       this.$store.commit("edit/setDataExists", true);
 
       this.$router.push({
-        name: "record-movie",
-        path: "record-movie",
+        name: "edit-movie",
+        path: "edit-movie",
       });
     },
   },

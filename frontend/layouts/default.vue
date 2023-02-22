@@ -2,7 +2,9 @@
   <div>
     <nav-bar />
     <section class="is-flex">
-      <!-- <side-bar /> -->
+      <div v-if="isLoggedIn">
+        <side-bar />
+      </div>
       <nuxt />
     </section>
   </div>
@@ -10,9 +12,14 @@
 
 <script>
 export default {
+  mounted() {
+    console.log(this.$auth.loggedIn())
+  },
   name: "DefaultLayout",
   data() {
-    return {};
+    return {
+      isLoggedIn: this.$auth.loggedIn(),
+    };
   },
 };
 </script>

@@ -67,6 +67,7 @@
           </b-menu-list>
         </b-menu>
       </div>
+        <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
     </b-sidebar>
   </section>
 </template>
@@ -75,6 +76,8 @@
 export default {
   data() {
     return {
+      isLoading: false,
+      isFullPage: true,
       expandOnHover: true,
       expandWithDelay: false,
       mobile: "hidden",
@@ -84,11 +87,13 @@ export default {
   },
   methods: {
     async logout() {
+      this.isLoading = true;
       await this.$auth.logout();
        this.$router.push({
-        name: "index",
-        path: "/"
+         redirect: "/login",
+        path: "/login"
       });
+      this.isLoading = false;
     },
   },
 };

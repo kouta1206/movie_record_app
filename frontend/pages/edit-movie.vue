@@ -4,12 +4,12 @@
       <div>
         <figure class="image is-256x256">
           <img
-            v-if="tmdbImgPath == null"
+            v-if="movieImgPath == null"
             style="width: 256px"
             height="256px"
             src="../assets/no_image.png"
           />
-          <img v-else style="width: 256px" height="256px" :src="tmdbImgPath" />
+          <img v-else style="width: 256px" height="256px" :src="movieImgPath" />
         </figure>
       </div>
       <section class="ml-6">
@@ -22,7 +22,7 @@
             "
             >映画タイトル</label
           >
-          <b-input :value="tmdbTitle" v-model="tmdbTitle" icon="apps"></b-input>
+          <b-input :value="movieTitle" v-model="movieTitle" icon="apps"></b-input>
           <label
             class="typo__label"
             for="ajax"
@@ -141,7 +141,7 @@
           <b-datepicker
             placeholder="放送開始日を入力ください"
             icon="calendar-today"
-            v-model="tmdbReleaseDate"
+            v-model="movieReleaseDate"
             trap-focus
           >
           </b-datepicker>
@@ -179,10 +179,7 @@
       </div>
     </div>
     <div class="buttons is-justify-content-flex-end mr-6 mb-3">
-      <b-button v-if="!isEditMode" type="is-primary" @click="recordMovie()"
-        >映画を登録する</b-button
-      >
-      <b-button v-else type="is-primary" @click="editRecordMovie()"
+      <b-button type="is-primary" @click="editRecordMovie()"
         >映画を更新する</b-button
       >
     </div>
@@ -214,8 +211,8 @@ export default {
     StarRating,
   },
   mounted() {
-    //　Vuexよりtmdb情報をセット
-    this.setValueFromTmdb();
+    //   Vuexより編集映画情報があればセット
+    this.setValueFromEditMovie();
     //　ジャンルマスタデータ取得
     this.asyncFindGenreNames();
     //  出演者マスタデータ取得
@@ -223,9 +220,9 @@ export default {
   },
   data() {
     return {
-      tmdbTitle: "",
-      tmdbImgPath: null,
-      tmdbReleaseDate: [],
+      movieTitle: "",
+      movieImgPath: null,
+      movieReleaseDate: [],
       evaluation: null,
       rating: 0,
       review: "",
@@ -249,15 +246,41 @@ export default {
     limitText(count) {
       return `and ${count} other genreNames`;
     },
-    setValueFromTmdb() {
-      if (this.$store.state.tmdb.title) {
-        this.tmdbTitle = this.$store.state.tmdb.title;
+    setValueFromEditMovie() {
+      if (!this.$store.state.edit.dataExists) {
+        return;
+      } else {
+        this.isEditMode = this.$store.state.edit.dataExists;
       }
-      if (this.$store.state.tmdb.imagePath) {
-        this.tmdbImgPath = this.$store.state.tmdb.imagePath;
+      if (this.$store.state.edit.id) {
+        this.movieId = this.$store.state.edit.id;
       }
-      if (this.$store.state.tmdb.releaseDate) {
-        this.tmdbReleaseDate = new Date(this.$store.state.tmdb.releaseDate);
+      if (this.$store.state.edit.title) {
+        this.movieTitle = this.$store.state.edit.title;
+      }
+      if (this.$store.state.edit.director) {
+        this.director = this.$store.state.edit.director;
+      }
+      if (this.$store.state.edit.img) {
+        this.movieImgPath = this.$store.state.edit.img;
+      }
+      if (this.$store.state.edit.releaseDate) {
+        this.movieReleaseDate = new Date(this.$store.state.edit.releaseDate);
+      }
+      if (this.$store.state.edit.genreName) {
+        this.selectedGenres = this.$store.state.edit.genreName;
+      }
+      if (this.$store.state.edit.starringName) {
+        this.starrings = this.$store.state.edit.starringName;
+      }
+      if (this.$store.state.edit.evaluation) {
+        this.evaluation = this.$store.state.edit.evaluation;
+      }
+      if (this.$store.state.edit.viewingDate) {
+        this.viewingDate = new Date(this.$store.state.edit.viewingDate);
+      }
+      if (this.$store.state.edit.review) {
+        this.review = this.$store.state.edit.review;
       }
     },
     async asyncFindStarringNames() {
@@ -286,69 +309,51 @@ export default {
         );
       });
     },
-    async recordMovie() {
-      let params = this.setRecordMovieParams();
+    setEditMovieParams() {
+      let movie = {};
+      let starring = {};
+      let genre = {};
+      movie.title = this.movieTitle;
+
+      movie.evaluation = this.evaluation;
+
+      movie.image_path = this.movieImgPath;
+
+      movie.director = this.director;
+
+      const viewingDate = moment(this.viewingDate).format("YYYY-MM-DD");
+      movie.viewing_at = viewingDate;
+
+      const releaseDate = moment(this.movieReleaseDate).format("YYYY-MM-DD");
+      movie.release_at = releaseDate;
+
+      movie.review = this.review;
+
+      starring.name = this.starrings.map((starring) => starring.name);
+
+      genre.name = this.selectedGenres.map((genre) => genre.name);
+
+      return { movie, starring, genre };
+    },
+    async editRecordMovie() {
+      const params = this.setEditMovieParams();
+
       await this.$axios
-        .$post("api/v1/movies", {
+        .$put(`api/v1/movies/${this.movieId}`, {
           ...params,
         })
         .then((res) => {
           if (res.status == 400) {
-            //バリデーションダイアログ
             this.showValidationDialog(res);
             return;
           }
-          // トースタ出力
           this.toasterOutput();
-          // リダイレクト
           this.$router.push({
             name: "index-movie",
             path: "index-movie",
           });
         })
         .catch((error) => {});
-    },
-    setRecordMovieParams() {
-      let movie = {};
-      let starring = {};
-      let genre = {};
-
-      movie.title = this.tmdbTitle;
-
-      if (this.evaluation) {
-        movie.evaluation = this.evaluation;
-      }
-
-      if (this.tmdbImgPath) {
-        movie.image_path = this.tmdbImgPath;
-      }
-
-      if (this.director) {
-        movie.director = this.director;
-      }
-
-      if (this.viewingDate) {
-        const viewingDate = moment(this.viewingDate).format("YYYY-MM-DD");
-        movie.viewing_at = viewingDate;
-      }
-
-      if (this.tmdbReleaseDate) {
-        const releaseDate = moment(this.tmdbReleaseDate).format("YYYY-MM-DD");
-        movie.release_at = releaseDate;
-      }
-
-      if (this.review) {
-        movie.review = this.review;
-      }
-
-      if (this.starrings) {
-        starring.name = this.starrings.map((starring) => starring.name);
-      }
-
-      if (this.selectedGenres) {
-        genre.name = this.selectedGenres.map((genre) => genre.name);
-      }
-      return { movie, starring, genre };
     },
     toasterOutput() {
       this.$buefy.notification.open({

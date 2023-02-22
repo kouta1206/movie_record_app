@@ -117,6 +117,7 @@
 
 <script>
 export default {
+  middleware: "logged-in-redirect",
   data() {
     return {
       rounded: true,
@@ -161,6 +162,6 @@ export default {
   margin-top: 200px;
   color: #fff;
   text-align: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 </style>
