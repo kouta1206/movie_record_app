@@ -1,43 +1,42 @@
 <template>
-  <div class="is-ralative">
-    <div class="card card-wrapper">
-      <div class="login-title">movie-recordにログインする</div>
-      <div class="card-content">
-        <div class="content">
-          <section>
-            <b-field
-              label="メールアドレス"
-              type="is-success"
-              message="This username is available"
-              class="mb-3"
-            >
-              <b-input maxlength="30" v-model="params.auth.email"></b-input>
-            </b-field>
-            {{ params.auth.name }}
-
-            <b-field label="パスワード" class="mb-6">
-              <b-input
-                type="password"
-                password-reveal
-                v-model="params.auth.password"
+  <div class="section header-section over-width-container" style="height: 93.33vh;">
+      <div class="card card-wrapper">
+        <div class="login-title">movie-recordにログインする</div>
+        <div class="card-content">
+          <div class="content">
+            <section>
+              <b-field
+                label="メールアドレス"
+                type="is-success"
+                message="This username is available"
+                class="mb-3"
               >
-              </b-input>
-            </b-field>
-            <b-button class="mt-" type="is-primary" expanded @click="login"
-              >ログイン</b-button
-            >
-          </section>
+                <b-input maxlength="30" v-model="params.auth.email"></b-input>
+              </b-field>
+              {{ params.auth.name }}
+
+              <b-field label="パスワード" class="mb-6">
+                <b-input
+                  type="password"
+                  password-reveal
+                  v-model="params.auth.password"
+                >
+                </b-input>
+              </b-field>
+              <b-button class="mt-" type="is-primary" expanded @click="login"
+                >ログイン</b-button
+              >
+            </section>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
-  middleware: 'logged-in-redirect',
-  mounted() {
-  },
+  middleware: "logged-in-redirect",
+  mounted() {},
   data() {
     return {
       params: { auth: { email: "", password: "" } },
@@ -53,7 +52,7 @@ export default {
             name: "index-movie",
             path: "index-movie",
           });
-            location.reload();
+          location.reload();
         })
         .catch((error) => {
           this.indicateValidationDialog(error);
@@ -82,7 +81,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .card-wrapper {
   position: absolute;
   top: 50%;
@@ -96,6 +95,18 @@ export default {
   font-size: 40px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   text-align: center;
+}
+
+.header-section {
+  width: 100vw;
+  background-image: linear-gradient(
+      to right top,
+      rgba(19, 84, 122, 0.6),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url(../assets/top-background-image.jpg);
+  background-position: center center;
+  background-size: cover;
 }
 </style>
 

@@ -30,7 +30,6 @@ export const mutations = {
   },
   setGenreName (state, payload) {
     state.genreName = [...payload]
-    console.log(state.genreName)
   },
   setStarringName (state, payload) {
     state.starringName = [...payload]

@@ -149,7 +149,7 @@ export default {
   methods: {
     clearSearchParam() {
       this.viewingAtFrom = new Date();
-      let afterSixMonth = moment().add(6, "months").format("YYYY-MM-DD");
+      let afterSixMonth = moment().add(1, "years").format("YYYY-MM-DD");
       this.viewingAtTo = new Date(afterSixMonth);
     },
     async getGenreNames() {

@@ -55,6 +55,7 @@ class Authentication {
     { validateStatus: status => this.resolveUnauthorized(status) }
     )
     this.resetVuex()
+    location.reload();
   }
 
    // 有効期限内にtrueを返す
