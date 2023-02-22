@@ -28,14 +28,14 @@ module Api
 
       def update
         movie.update_movie(movie_params, starring_params, genre_params)
-          head :created
+          render json: {movie: movie, status: 200}
         rescue ActiveRecord::RecordInvalid => e
           render json: { status: 400, message:  e.record.errors.full_messages}
       end
 
       def destroy
         if movie.destroy
-          head :created
+          head :ok
         else
           render json: movie.errors
         end

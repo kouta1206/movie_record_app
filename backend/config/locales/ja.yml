@@ -12,11 +12,14 @@ ja:
         release_at: 公開日
         viewing_at: 視聴日
         evaluation: 評価
+        starring: 出演者
+        genre: ジャンル
       starring:
         name: 主演
       genre:
         name: ジャンル
     errors:
+      starring: 出演者
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
         restrict_dependent_destroy:

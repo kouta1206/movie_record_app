@@ -100,13 +100,25 @@ scope :paginate, -> (page) {
     def update_movie(movie_params, starring_params, genre_params)
         transaction do
             update!(movie_params)
-            starring_params[:name].map {|starring_name|
-                starrings.find_or_create_by!(name: starring_name)
-            }
-            genre_params[:name].map {|genre_name|
-                genres.find_or_create_by!(name: genre_name)
-            }
+            if starring_params[:name].empty?
+                errors.add(:starring, 'リストが空です')
+                raise ActiveRecord::RecordInvalid.new(self)
+            else
+                starring_params[:name].map {|starring_name|
+                    starrings.find_or_create_by!(name: starring_name)
+                }
+            end
+            
+            if genre_params[:name].empty?
+                errors.add(:genre, 'が空です')
+                raise ActiveRecord::RecordInvalid.new(self)
+            else
+                genre_params[:name].map {|genre_name|
+                    genres.find_or_create_by!(name: genre_name)
+                }
+            end
         end
+
     end
 
     class << self
@@ -114,12 +126,24 @@ scope :paginate, -> (page) {
         def create_movie(movie_params,  starring_params, genre_params)
             transaction do
                 movie = Movie.create!(movie_params)
-                starring_params[:name].map {|starring_name|
-                    movie.starrings.find_or_create_by!(name: starring_name)
-                }
-                genre_params[:name].map {|genre_name|
-                    movie.genres.find_or_create_by!(name: genre_name)
-                }
+                if starring_params[:name].empty?
+                    movie.errors.add(:starring, 'リストが空です')
+                    raise ActiveRecord::RecordInvalid.new(movie)
+                else
+                    starring_params[:name].map {|starring_name|
+                        movie.starrings.find_or_create_by!(name: starring_name)
+                    }
+                end
+
+                if genre_params[:name].empty?
+                    movie.errors.add(:genre, 'が空です')
+                    raise ActiveRecord::RecordInvalid.new(movie)
+                else
+                    genre_params[:name].map {|genre_name|
+                        movie.genres.find_or_create_by!(name: genre_name)
+                    }
+                end
+
             end
         end
 
