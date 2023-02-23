@@ -20,6 +20,7 @@
     "sass": "^1.57.1",
     "sass-loader": "10",
     "vue": "^2.7.10",
+    "vue-carousel": "^0.18.0",
     "vue-multiselect": "^2.1.7",
     "vue-server-renderer": "^2.7.10",
     "vue-star-rating": "^1.7.0",

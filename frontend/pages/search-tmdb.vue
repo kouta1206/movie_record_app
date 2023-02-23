@@ -1,17 +1,29 @@
 <template>
   <div class="" style="width: 90vw">
-      <div class="section header-section over-width-container">
-          <div class="header-title">
+    <div class="section header-section over-width-container">
+      <div class="header-title">
         <h1>鑑賞した映画を検索しよう！</h1>
         <h2>鑑賞した映画の画像などの素材や情報を検索できます</h2>
       </div>
-      <b-field grouped class="mt-6">
-        <b-input placeholder="検索から登録する" expanded   v-model="searchParam"></b-input>
-        <p class="control">
-          <b-button label="Search" @click="searchAsyncTmdbMovie" type="is-primary" />
-        </p>
-      </b-field>
+      <div class="container">
+        <div class="section">
+          <b-field grouped>
+            <b-input
+              placeholder="検索から登録する"
+              expanded
+              v-model="searchParam"
+            ></b-input>
+            <p class="control">
+              <b-button
+                label="Search"
+                @click="searchAsyncTmdbMovie"
+                type="is-primary"
+              />
+            </p>
+          </b-field>
+        </div>
       </div>
+    </div>
     <section style="width: 90vw" class="mt-6">
       <b-loading
         :is-full-page="isFullPage"
@@ -126,7 +138,6 @@ export default {
 </script>
 
 <style>
-
 .over-width-container {
   margin-right: calc(((100vw - 100%) / 2) * -1);
 }
@@ -152,7 +163,7 @@ export default {
 .header-title {
   color: #fff;
   text-align: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 </style>
 
