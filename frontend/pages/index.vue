@@ -9,105 +9,94 @@
     <div class="section">
       <div class="is-flex is-justify-content-space-between">
         <div>
-          <b-image
-            src="https://picsum.photos/600/400"
+          <img
+            src="../assets/top-logo1.png"
             ratio="6by4"
             :rounded="rounded"
             style="width: 25vw"
-          ></b-image>
+          />
         </div>
         <div>
-          <b-image
-            src="https://picsum.photos/600/400"
+          <img
+            src="../assets/top-logo2.png"
             ratio="6by4"
             :rounded="rounded"
             style="width: 25vw"
-          ></b-image>
+          />
         </div>
         <div>
-          <b-image
-            src="https://picsum.photos/600/400"
+          <img
+            src="../assets/top-logo3.png"
             ratio="6by4"
             :rounded="rounded"
             style="width: 25vw"
-          ></b-image>
+          />
         </div>
       </div>
     </div>
     <div class="section">
-      <div class="example-component">
-        <b-field grouped group-multiline>
-          <b-field label="Type" label-position="on-border">
-            <b-select v-model="progressType" :disabled="!progress">
-              <option value="is-primary">is-primary</option>
-              <option value="is-info">is-info</option>
-              <option value="is-success">is-success</option>
-              <option value="is-warning">is-warning</option>
-              <option value="is-danger">is-danger</option>
-              <option value="is-white">is-white</option>
-              <option value="is-light">is-light</option>
-              <option value="is-dark">is-dark</option>
-            </b-select>
-          </b-field>
-        </b-field>
-      </div>
-      <div class="is-flex is-justify-content-space-between">
-        <div>
-          <b-carousel :progress="progress" :progress-type="progressType">
-            <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
-              <section :class="`hero is-medium is-${carousel.color}`">
-                <div class="hero-body has-text-centered">
-                  <h1 class="title">{{ carousel.title }}</h1>
-                </div>
-              </section>
-            </b-carousel-item>
-          </b-carousel>
-        </div>
-        <div>
-          <b-carousel :progress="progress" :progress-type="progressType">
-            <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
-              <section :class="`hero is-medium is-${carousel.color}`">
-                <div class="hero-body has-text-centered">
-                  <h1 class="title">{{ carousel.title }}</h1>
-                </div>
-              </section>
-            </b-carousel-item>
-          </b-carousel>
-        </div>
-        <div>
-          <b-carousel :progress="progress" :progress-type="progressType">
-            <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
-              <section :class="`hero is-medium is-${carousel.color}`">
-                <div class="hero-body has-text-centered">
-                  <h1 class="title">{{ carousel.title }}</h1>
-                </div>
-              </section>
-            </b-carousel-item>
-          </b-carousel>
-        </div>
-        <div>
-          <b-carousel :progress="progress" :progress-type="progressType">
-            <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
-              <section :class="`hero is-medium is-${carousel.color}`">
-                <div class="hero-body has-text-centered">
-                  <h1 class="title">{{ carousel.title }}</h1>
-                </div>
-              </section>
-            </b-carousel-item>
-          </b-carousel>
-        </div>
-      </div>
+      <carousel :perPage="6">
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/h9gCsCXF4gzhs1ETX8jNxi5XKuR.jpg"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/twUbb6Irktv0VEsJXQWJ3VKyxFX.jpg
+"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/8S6bv0xVYU4HojHD61yFF6EmYNK.jpg"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/aN3BAlLEH5hAdZc74w5U8oUXkoq.jpg"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/qi9r5xBgcc9KTxlOLjssEbDgO0J.jpg"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/5v3grtPk3QSdjDP8ggpylA3hgIy.jpg"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+        <slide>
+          <b-image
+            src="https://www.themoviedb.org/t/p/w440_and_h660_face/mjcCywlptZo3R6bOTSRiiuxm2q4.jpg"
+            ratio="6by4"
+            style="width: 12vw; height: 300px"
+          ></b-image>
+        </slide>
+      </carousel>
     </div>
-    <footer class="footer over-width-container">
+    <footer class="footer over-width-container" style="background-color: black; color: #fff;">
       <div class="content has-text-centered">
         <p>
-          <strong>Bulma</strong> by
-          <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is
-          licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
+          <a href="">kouta hirao</a>. The source code is
+          here
+          <a href="https://github.com/kouta1206/movie_record_app">https://github.com/kouta1206/movie_record_app</a>. The
           website content is licensed
-          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-            >CC BY NC SA 4.0</a
+          <a href=""
+            >CC BY KOUTA</a
           >.
         </p>
       </div>
@@ -116,6 +105,10 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { Carousel, Slide } from "vue-carousel";
+Vue.component("carousel", Carousel);
+Vue.component("slide", Slide);
 export default {
   middleware: "logged-in-redirect",
   data() {
@@ -123,12 +116,6 @@ export default {
       rounded: true,
       progress: false,
       progressType: "is-primary",
-      carousels: [
-        { title: "Slide 1", color: "grey" },
-        { title: "Slide 2", color: "dark" },
-        { title: "Slide 3", color: "primary" },
-        { title: "Slide 4", color: "info" },
-      ],
     };
   },
 };
