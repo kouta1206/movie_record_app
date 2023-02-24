@@ -6,7 +6,7 @@ jobs:
       - image: cimg/ruby:2.7.1
         environment:
           RAILS_ENV: test
-          DB_HOST: 127.0.0.1
+          DB_HOST: db
       - image: circleci/postgres:12.3
         environment:
           POSTGRES_PASSWORD: password
