@@ -7,8 +7,9 @@ jobs:
         environment:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
-          POSTGRES_HOST_AUTH_METHOD: trust
       - image: circleci/postgres:12.3
+        environment:
+          POSTGRES_PASSWORD: password
 
     working_directory: ~/repo
 
