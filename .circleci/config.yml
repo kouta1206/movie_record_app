@@ -6,6 +6,7 @@ jobs:
       - image: cimg/ruby:2.7.1
         environment:
           RAILS_ENV: test
+         POSTGRES_PASSWORD: $POSTGRES_PASSWORD
           DB_HOST: 127.0.0.1
       - image: circleci/postgres:12.3
 
@@ -67,7 +68,7 @@ jobs:
 
   test_frontend:
     docker:
-      - image: cimg/node:16
+      - image: cimg/node:16.0.0
         environment:
           NODE_ENV: test
 
