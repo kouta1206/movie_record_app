@@ -4,12 +4,10 @@ jobs:
   test_backend:
     docker:
       - image: cimg/ruby:2.7.1
-        auth:
-          password: password
-          username: postgres
         environment:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
+          POSTGRES_HOST_AUTH_METHOD: trust
       - image: circleci/postgres:12.3
 
     working_directory: ~/repo
