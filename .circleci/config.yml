@@ -4,6 +4,9 @@ jobs:
   test_backend:
     docker:
       - image: cimg/ruby:2.7.1
+        auth:
+          username: postgres
+          password: password
         environment:
           RAILS_ENV: test
           DB_HOST: db
