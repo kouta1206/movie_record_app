@@ -25,18 +25,3 @@
 
 # Ignore master key for decrypting credentials and more.
 /backend/config/master.key
-
-#Ignore all docker db
-/docker/db
-
-#Ignore .env
-.env
-/backend/.env
-
-#Ignore verification environment file
-verification-environment.html
-
-# Ignore history file
-/backend/.irb_history
-/frontend/.ash_history
-/backend/.byebug_history

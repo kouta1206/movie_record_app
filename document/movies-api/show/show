@@ -1,0 +1,42 @@
+front
+    画面名
+        - 映画詳細ページ
+        - ../show.png
+    URL
+        - localhost:8080/show-movie?id=:id
+    役割
+        - 登録した映画の詳細画面
+    ソース
+        - frontend/pages/show-movie.vue
+backend
+    api名称
+        - 映画詳細api
+    エンドポイント
+        - /api/v1/movies/:id
+    役割
+        - 映画idを情報に映画の情報を取得する
+    ソース
+        - controller:src/backend/controller/api/v1/movies_controller.rb
+            - method:show
+        - model:src/backend/app/models/movie.rb
+        - service:src/services/movie_items/show_service.rb
+    httpメソッド
+        - get
+
+    見ていただきたい点
+            - showメソッド全般をアドバイスしていただきたいです。
+            n + 1は発生していないか、記載の仕方は間違っていないか、そもそも
+            serviceに記載しない等なんでもアドバイスいただければ幸いです。
+
+    懸念点
+        現在->controller->service->modelで実装しているのですが、この場合の
+        ロジック等はサービスでよいのでしょうか？？モデルに記載する方がよさそうですか？？
+
+    改善点(今度対応しなければいけない点)
+        フロントにおけるデザインをシンプルから凝ったものにする（優先度低）
+        まだ、更新処理、削除処理は実装してないので、今後実装予定(2023/2/1現在)
+
+    追加機能予定
+        - 更新処理
+        - 削除処理
+
