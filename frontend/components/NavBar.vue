@@ -1,6 +1,6 @@
 <template>
   <div class="has-background-primary">
-    <b-navbar class="container" type="is-primary">
+    <b-navbar class="container" type="is-primary"  style="height: 5vh;">
       <template #brand>
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
           <strong>movie-record</strong>

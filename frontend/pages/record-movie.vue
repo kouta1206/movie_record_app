@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 90vw">
+  <div style="width: 90vw; padding: 35px;">
     <div class="is-flex mx-6 my-6">
       <div>
         <figure class="image is-256x256">
@@ -179,12 +179,8 @@
       </div>
     </div>
     <div class="buttons is-justify-content-flex-end mr-6 mb-3">
-      <b-button v-if="!isEditMode" type="is-primary" @click="recordMovie()"
-        >映画を登録する</b-button
-      >
-      <b-button v-else type="is-primary" @click="editRecordMovie()"
-        >映画を更新する</b-button
-      >
+      <b-button  type="is-primary" @click="recordMovie()"
+        >映画を登録する</b-button>
     </div>
 
     <div style="text-align: center">
