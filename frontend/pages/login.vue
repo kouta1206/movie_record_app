@@ -1,5 +1,5 @@
 <template>
-  <div class="section header-section over-width-container" style="height: 93.33vh;">
+  <div class="section header-section over-width-container" style="height: 95vh;">
       <div class="card card-wrapper">
         <div class="login-title">movie-recordにログインする</div>
         <div class="card-content">
@@ -7,11 +7,9 @@
             <section>
               <b-field
                 label="メールアドレス"
-                type="is-success"
-                message="This username is available"
                 class="mb-3"
               >
-                <b-input maxlength="30" v-model="params.auth.email"></b-input>
+                <b-input  v-model="params.auth.email"></b-input>
               </b-field>
               {{ params.auth.name }}
 

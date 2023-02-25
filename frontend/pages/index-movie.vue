@@ -1,7 +1,7 @@
 <template>
-  <div style="padding: 35px 35px 0 35px">
+  <div style="padding: 50px 35px 0 35px">
     <div style="height: 20vh mx-5 my-5">
-      <section class="mx-3 my-3 is-flex" style="">
+      <section class="mx-3 my-3 is-flex">
         <div class="mr-5">
           <b-field
             label="映画タイトル"
