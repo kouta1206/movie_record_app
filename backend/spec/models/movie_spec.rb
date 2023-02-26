@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
-  # TODO:rspecが途中で構文エラーやテストが失敗するとユーザーが作成されてしまう時がある
     describe '登録系のテスト' do
       context '正常系' do
         it '正しく登録できること' do
