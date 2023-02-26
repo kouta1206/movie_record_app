@@ -1,6 +1,6 @@
 <template>
   <div style="width: 90vw; padding: 35px;">
-    <div class="is-flex mx-6 my-6">
+    <div class="is-flex mx-6 my-3">
       <div>
         <figure class="image is-256x256">
           <img

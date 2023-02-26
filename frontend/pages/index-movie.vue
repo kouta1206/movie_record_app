@@ -120,8 +120,6 @@ export default {
     CommonTable,
   },
   mounted() {
-    // 検索条件初期化
-    this.clearSearchParam();
     // マスターデータ取得
     this.getGenreNames();
     // 映画検索
@@ -140,18 +138,13 @@ export default {
       genreName: "",
       searchText: [],
       movieList: [],
-      sortField: "id",
-      order: "asc",
+      sortField: "viewing_at",
+      order: "desc",
       page: 1,
       count: null,
     };
   },
   methods: {
-    clearSearchParam() {
-      this.viewingAtFrom = new Date();
-      let afterSixMonth = moment().add(1, "years").format("YYYY-MM-DD");
-      this.viewingAtTo = new Date(afterSixMonth);
-    },
     async getGenreNames() {
       await this.$axios
         .$get("api/v1/genres")
@@ -201,12 +194,12 @@ export default {
         params.push(["starring", this.starring]);
       }
 
-      if (this.viewingAtFrom && this.viewingAtTo) {
+      if (!Array.isArray(this.viewingAtFrom)) {
         const viewingAtFrom = moment(this.viewingAtFrom).format("YYYY-MM-DD");
         params.push(["viewingAtFrom", viewingAtFrom]);
       }
 
-      if (this.viewingAtFrom && this.viewingAtTo) {
+      if (!Array.isArray(this.viewingAtTo)) {
         const viewingAtTo = moment(this.viewingAtTo).format("YYYY-MM-DD");
         params.push(["viewingAtTo", viewingAtTo]);
       }

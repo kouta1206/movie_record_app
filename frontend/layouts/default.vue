@@ -12,9 +12,6 @@
 
 <script>
 export default {
-  mounted() {
-    console.log(this.$auth.loggedIn())
-  },
   name: "DefaultLayout",
   data() {
     return {

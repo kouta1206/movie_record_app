@@ -3,5 +3,7 @@ export default ({ $auth, route, redirect }) => {
     return redirect("/index-movie");
   } else if ($auth.loggedIn() && route.name == "signup") {
     return redirect("/index-movie");
+  } else if ($auth.loggedIn() && route.name == "index") {
+    return redirect("/index-movie");
   }
 };

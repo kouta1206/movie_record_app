@@ -100,7 +100,6 @@ export default {
             return;
           } else {
             this.tmdbMovie.push(...res);
-            console.log(this.tmdbMovie);
           }
         })
         .catch((error) => {
