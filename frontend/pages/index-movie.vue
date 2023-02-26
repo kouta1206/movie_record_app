@@ -194,12 +194,12 @@ export default {
         params.push(["starring", this.starring]);
       }
 
-      if (this.viewingAtFrom && this.viewingAtFrom.length) {
+      if (!Array.isArray(this.viewingAtFrom)) {
         const viewingAtFrom = moment(this.viewingAtFrom).format("YYYY-MM-DD");
         params.push(["viewingAtFrom", viewingAtFrom]);
       }
 
-      if (this.viewingAtTo && this.viewingAtTo.length) {
+      if (!Array.isArray(this.viewingAtTo)) {
         const viewingAtTo = moment(this.viewingAtTo).format("YYYY-MM-DD");
         params.push(["viewingAtTo", viewingAtTo]);
       }

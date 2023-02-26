@@ -59,7 +59,6 @@ scope :search_movies, -> (search_params) do
     res = res.sort_by_order(search_params) if search_params[:sortField].present?
     res = res.paginate(search_params[:page]) if search_params[:page].present?
 
-    res
 end
 
 
@@ -70,7 +69,7 @@ scope :inner_join_with_genres, -> (genre) { joins(:genres)
     .where(genres: {name: genre}) }
 
 scope :with_title, -> (title) {
-    where(title: title) }
+    where("title LIKE ?", self.sanitize_sql_like(title) + "%") }
 
 scope :with_user_id, -> (user_id) {
     where(user_id: user_id)
@@ -86,8 +85,8 @@ scope :with_evaluation, ->  (evaluation) {
 scope :with_default_period, ->  {
     where(viewing_at: (Movie.minimum(:viewing_at))..(Movie.maximum(:viewing_at))) }
 
-    scope :with_custom_period, ->(from, to)  {
-        where(viewing_at: (from)..(to)) }
+scope :with_custom_period, ->(from, to)  {
+    where(viewing_at: (from)..(to)) }
 
 scope :sort_by_order, -> (search_params) {
     sort_field = search_params[:sortField]
