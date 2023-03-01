@@ -13,6 +13,11 @@
 ## **作成期間はどれくらい？**
 およそ1ヶ月程度です。
 
+## インフラ構成図
+
+![movie-record_infra](./assets/%E5%90%8D%E7%A7%B0%E6%9C%AA%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB.drawio%20(4).png)
+
+
 
 
 ## **使用技術は？**
@@ -51,11 +56,23 @@
 - 外部API連携の実装
 
 
-## AWS構成図
 
 
 
 ## DB設計
+![movie-record_ERD](./assets/db-entity.png)
+
+### 各テーブルについて
+
+| テーブル名 | 説明 |
+|:-:|:-:|
+| users  | 利用者情報  |
+| movies  | 映画情報  |
+|  movie_genre | 映画とジャンルの中間テーブル情報  |
+| genres  | ジャンル情報  |
+| starrings  | 俳優情報  |
+| movie_starring  | 映画と俳優の中間テーブル情報  |
+
 
 
 
