@@ -15,9 +15,7 @@
 
 ## インフラ構成図
 
-![movie-record_infra](./assets/%E5%90%8D%E7%A7%B0%E6%9C%AA%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB.drawio%20(4).png)
-
-
+![movie-record_infra](./assets/infra.png)
 
 
 ## **使用技術は？**
