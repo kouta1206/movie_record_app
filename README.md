@@ -55,6 +55,41 @@
 
 - 外部API連携の実装
 
+## 機能イメージ
+トップ画面
+![movie-record_index-movie](./assets/movie-index.png)
+
+登録映画詳細ページ
+![show-movie](./assets/show-movie.png)
+
+登録映画編集ページ
+![edit-movie](./assets/edit-moie.png)
+
+鑑賞映画登録ページ
+![record-movie](./assets/record-movie.png)
+
+登録映画検索ページ
+![search-movie-from-tmdb](./assets/search-movie.png)
+
+登録映画検索後ページ
+![search-movie-from-tmdb](./assets/searchd-movie.png)
+
+各種コンポーネントUI
+
+ダイアログコンポーネント
+![dialog](./assets/dialog.png)
+
+マルチセレクトコンポーネント
+![multiselect](./assets/multiselect.png)
+![fetchmultiselect](./assets/fetch-multiselect.png)
+
+ページネーションコンポーネント
+![pagenation](./assets/pagenation.png)
+
+
+
+
+
 
 
 
