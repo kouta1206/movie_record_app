@@ -22,7 +22,11 @@
             "
             >映画タイトル</label
           >
-          <b-input :value="movieTitle" v-model="movieTitle" icon="apps"></b-input>
+          <b-input
+            :value="movieTitle"
+            v-model="movieTitle"
+            icon="apps"
+          ></b-input>
           <label
             class="typo__label"
             for="ajax"
@@ -271,7 +275,7 @@ export default {
         this.selectedGenres = this.$store.state.edit.genreName;
       }
       if (this.$store.state.edit.starringName) {
-        this.starrings = this.$store.state.edit.starringName;
+        this.starrings = this.$store.state.edit.starringName.map((starring => starring.name));
       }
       if (this.$store.state.edit.evaluation) {
         this.evaluation = this.$store.state.edit.evaluation;
@@ -329,11 +333,25 @@ export default {
 
       movie.review = this.review;
 
-      starring.name = this.starrings.map((starring) => starring.name);
+      starring.name = this.starrings.map((starring) => starring);
 
       genre.name = this.selectedGenres.map((genre) => genre.name);
 
       return { movie, starring, genre };
+    },
+    clearEditMovieVuex() {
+      this.$store.commit("edit/setMovieId", null);
+      this.$store.commit("edit/setMovieTitle", null);
+      this.$store.commit("edit/setMovieDirector", null);
+      this.$store.commit("edit/setMovieImg", null);
+      this.$store.commit("edit/setGenreName", []);
+      this.$store.commit("edit/setStarringName", []);
+      this.$store.commit("edit/setMovieEvaluation", null);
+      this.$store.commit("edit/setMovieReleaseDate", null);
+      this.$store.commit("edit/setMovieViewingDate", null);
+      this.$store.commit("edit/setMovieViewingDate", null);
+      this.$store.commit("edit/setMovieReview", null);
+      this.$store.commit("edit/setDataExists", false);
     },
     async editRecordMovie() {
       const params = this.setEditMovieParams();
@@ -348,6 +366,7 @@ export default {
             return;
           }
           this.toasterOutput();
+          this.clearEditMovieVuex();
           this.$router.push({
             name: "index-movie",
             path: "index-movie",

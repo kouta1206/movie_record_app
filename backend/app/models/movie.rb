@@ -109,6 +109,7 @@ scope :paginate, -> (page) {
                 errors.add(:starring, 'リストが空です')
                 raise ActiveRecord::RecordInvalid.new(self)
             else
+                starrings.delete_all
                 starring_params[:name].map {|starring_name|
                     starrings.find_or_create_by!(name: starring_name)
                 }
@@ -118,6 +119,7 @@ scope :paginate, -> (page) {
                 errors.add(:genre, 'が空です')
                 raise ActiveRecord::RecordInvalid.new(self)
             else
+                genres.delete_all
                 genre_params[:name].map {|genre_name|
                     genres.find_or_create_by!(name: genre_name)
                 }

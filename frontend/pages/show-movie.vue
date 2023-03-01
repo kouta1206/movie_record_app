@@ -9,7 +9,7 @@
           <img src="../assets/no_image.png" alt="" srcset="" />
         </div>
         <div class="header-movie-detail ml-6">
-            <h1>{{ movieData.title }}</h1>
+          <h1>{{ movieData.title }}</h1>
           <div class="header-movie-genres mb-3">
             <h2>ジャンル</h2>
             <span
@@ -39,11 +39,10 @@
           ></b-loading>
           <div class="header-movie-evaluation">
             <h2 for="">評価</h2>
-            <AwesomeVueStarRating
-              disabled
-              :star="movieData.evaluation"
-              :hasresults="false"
-              :hasdescription="false"
+            <star-rating
+              v-model="movieData.evaluation"
+              :star-size="starSize"
+              :show-rating="false"
             />
           </div>
           <div class="buttons mt-5">
@@ -70,11 +69,10 @@
 </template>
 
 <script>
-import AwesomeVueStarRating from "awesome-vue-star-rating";
-
+import StarRating from "vue-star-rating";
 export default {
   components: {
-    AwesomeVueStarRating,
+    StarRating,
   },
   async mounted() {
     await this.getAsyncMovie(this.id);
@@ -88,6 +86,8 @@ export default {
       ignoreKeys: ["genres", "starrings"],
       isLoading: false,
       isFullPage: false,
+      starSize: 30,
+      rating: 2,
     };
   },
   methods: {
@@ -101,8 +101,7 @@ export default {
           this.genreData = res.genres;
           this.starringData = res.starrings;
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
       this.isLoading = false;
     },
     ignoreObjectKey(data, ignoreKeys) {
