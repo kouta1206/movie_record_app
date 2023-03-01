@@ -9,9 +9,7 @@
           <img src="../assets/no_image.png" alt="" srcset="" />
         </div>
         <div class="header-movie-detail ml-6">
-          <div class="header-movie-title">
             <h1>{{ movieData.title }}</h1>
-          </div>
           <div class="header-movie-genres mb-3">
             <h2>ジャンル</h2>
             <span

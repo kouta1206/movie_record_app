@@ -1,6 +1,12 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+  },
+
+
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -58,6 +64,9 @@ export default {
     headers: {
       "X-Requested-With": "XMLHttpRequest",
     },
+
+    baseURL: process.env.NODE_ENV === "production" ? "http://movie-record.link" : "http://localhost:3000"
+
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
   },
 

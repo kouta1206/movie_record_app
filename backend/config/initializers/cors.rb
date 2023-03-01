@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ENV["API_DOMAIN"] || ""
+    origins ['http://movie-record.link/', 'http://localhost:8080']
 
     resource '*',
       headers: :any,

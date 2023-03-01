@@ -59,6 +59,7 @@ scope :search_movies, -> (search_params) do
     res = res.sort_by_order(search_params) if search_params[:sortField].present?
     res = res.paginate(search_params[:page]) if search_params[:page].present?
 
+    res
 end
 
 
