@@ -56,6 +56,12 @@
 - 外部API連携の実装
 
 ## 機能イメージ
+ウェルカムページ
+![movie-record_welcome_page](./assets/welcome.png)
+
+ログインページ
+![login](./assets/login.png)
+
 トップ画面
 ![movie-record_index-movie](./assets/movie-index.png)
 
