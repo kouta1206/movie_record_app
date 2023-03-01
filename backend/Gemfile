@@ -47,7 +47,8 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rspec-rails', '~> 4.1.0'
   gem 'factory_bot_rails', '~> 5.0'
-   gem 'faker'
+  gem 'faker'
+  gem 'minitest-reporters', '~> 1.1', '>= 1.1.11'
 end
 
 group :development do
@@ -58,7 +59,6 @@ group :development do
 end
 
 group :test do
-  gem 'minitest-reporters', '~> 1.1', '>= 1.1.11'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
