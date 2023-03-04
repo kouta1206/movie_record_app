@@ -14,8 +14,9 @@ RSpec.describe User, type: :model do
         name = "a" * (max + 1)
         user = User.new(email: "test@example.com", password: "password", name: name)
         user.save
-
-        expect(user.errors[:name]).to include(I18n.t('errors.messages.too_long'))
+        user.errors.full_messages
+        maxlength_msg = "名前は30文字以内で入力してください"
+        expect(user.errors.full_messages).to include(maxlength_msg)
         
       end
     end
